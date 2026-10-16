@@ -1,0 +1,104 @@
+// Learntharifith — Amazigh Riffian language teaching platform
+// Prisma schema (SQLite)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// A single video lesson (YouTube-backed), categorized by level.
+model Lesson {
+  id           String   @id @default(cuid())
+  title        String
+  slug         String   @unique
+  description  String
+  youtubeId    String
+  level        String   // intro | beginner | intermediate | culture
+  lessonNumber Int?     // e.g. 1, 2, 3... (null for intro/culture)
+  thumbnail    String
+  durationMins Int      @default(0)
+  order        Int      @default(0)
+  featured     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  progress     UserProgress[]
+
+  @@index([level])
+  @@index([order])
+}
+
+// A culture / blog article.
+model Article {
+  id         String   @id @default(cuid())
+  title      String
+  slug       String   @unique
+  excerpt    String
+  content    String
+  coverImage String?
+  category   String   @default("Culture")
+  readMins   Int      @default(5)
+  published  Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// A merch product shown in the Shop section.
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String
+  price       Float
+  image       String
+  category    String   @default("Apparel")
+  inStock     Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// A structured online course (collection of lessons).
+model Course {
+  id           String   @id @default(cuid())
+  title        String
+  slug         String   @unique
+  description  String
+  level        String   @default("Beginner")
+  lessonsCount Int      @default(0)
+  durationHrs  Int      @default(0)
+  price        Float    @default(0)
+  image        String
+  instructor   String   @default("Learntharifith")
+  rating       Float    @default(5)
+  students     Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// Lightweight progress record keyed by an anonymous browser id (no auth needed).
+model UserProgress {
+  id        String   @id @default(cuid())
+  browserId String
+  lessonId  String
+  completed Boolean  @default(false)
+  watchedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([browserId, lessonId])
+  @@index([browserId])
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

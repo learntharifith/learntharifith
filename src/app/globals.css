@@ -1,0 +1,344 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+   Learntharifith — Amazigh Riffian theme
+   Palette inspired by Berber pottery, Rif mountains, Sahara sun, henna.
+   Primary  = terracotta (Rif earth, Berber pottery)
+   Saffron  = amber gold (Sahara sun, Yennayer)
+   Olive    = deep emerald/olive (Rif mountains, Islam/agriculture)
+   Henna    = deep red (Amazigh tattoos, weddings)
+   Sand     = warm cream background
+   ────────────────────────────────────────────────────────────────────── */
+:root {
+  --radius: 0.75rem;
+
+  /* Warm sand / cream base */
+  --background: oklch(0.985 0.012 80);      /* warm ivory */
+  --foreground: oklch(0.24 0.04 50);        /* deep warm brown-black */
+
+  --card: oklch(1 0.01 80);
+  --card-foreground: oklch(0.24 0.04 50);
+
+  --popover: oklch(1 0.01 80);
+  --popover-foreground: oklch(0.24 0.04 50);
+
+  /* Terracotta — Berber pottery / Rif earth */
+  --primary: oklch(0.58 0.16 38);
+  --primary-foreground: oklch(0.98 0.01 80);
+
+  /* Saffron sand */
+  --secondary: oklch(0.94 0.04 75);
+  --secondary-foreground: oklch(0.32 0.05 45);
+
+  --muted: oklch(0.95 0.02 75);
+  --muted-foreground: oklch(0.48 0.03 55);
+
+  /* Olive emerald accent */
+  --accent: oklch(0.5 0.09 145);
+  --accent-foreground: oklch(0.98 0.01 80);
+
+  --destructive: oklch(0.55 0.21 27);
+  --border: oklch(0.88 0.03 70);
+  --input: oklch(0.9 0.02 70);
+  --ring: oklch(0.58 0.16 38);
+
+  /* Saffron / amber / olive / henna / clay */
+  --chart-1: oklch(0.62 0.17 38);   /* terracotta */
+  --chart-2: oklch(0.7 0.15 75);    /* saffron    */
+  --chart-3: oklch(0.52 0.1 145);   /* olive      */
+  --chart-4: oklch(0.55 0.19 18);   /* henna      */
+  --chart-5: oklch(0.45 0.08 55);   /* clay brown */
+
+  --sidebar: oklch(0.97 0.015 75);
+  --sidebar-foreground: oklch(0.24 0.04 50);
+  --sidebar-primary: oklch(0.58 0.16 38);
+  --sidebar-primary-foreground: oklch(0.98 0.01 80);
+  --sidebar-accent: oklch(0.94 0.04 75);
+  --sidebar-accent-foreground: oklch(0.32 0.05 45);
+  --sidebar-border: oklch(0.88 0.03 70);
+  --sidebar-ring: oklch(0.58 0.16 38);
+
+  /* Custom brand tokens */
+  --lt-clay:    oklch(0.58 0.16 38);
+  --lt-saffron: oklch(0.72 0.15 78);
+  --lt-olive:   oklch(0.5 0.09 145);
+  --lt-henna:   oklch(0.5 0.18 22);
+  --lt-sand:    oklch(0.96 0.02 75);
+  --lt-ink:     oklch(0.24 0.04 50);
+}
+
+.dark {
+  /* Deep Rif night sky */
+  --background: oklch(0.17 0.02 55);
+  --foreground: oklch(0.96 0.015 80);
+
+  --card: oklch(0.22 0.025 55);
+  --card-foreground: oklch(0.96 0.015 80);
+
+  --popover: oklch(0.22 0.025 55);
+  --popover-foreground: oklch(0.96 0.015 80);
+
+  /* Warm terracotta stays vibrant */
+  --primary: oklch(0.68 0.17 42);
+  --primary-foreground: oklch(0.17 0.02 55);
+
+  --secondary: oklch(0.3 0.04 55);
+  --secondary-foreground: oklch(0.94 0.02 80);
+
+  --muted: oklch(0.27 0.02 55);
+  --muted-foreground: oklch(0.72 0.02 75);
+
+  --accent: oklch(0.6 0.1 150);
+  --accent-foreground: oklch(0.96 0.015 80);
+
+  --destructive: oklch(0.65 0.2 25);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.68 0.17 42);
+
+  --chart-1: oklch(0.7 0.17 42);
+  --chart-2: oklch(0.75 0.15 78);
+  --chart-3: oklch(0.6 0.1 150);
+  --chart-4: oklch(0.62 0.19 20);
+  --chart-5: oklch(0.55 0.08 55);
+
+  --sidebar: oklch(0.2 0.025 55);
+  --sidebar-foreground: oklch(0.96 0.015 80);
+  --sidebar-primary: oklch(0.68 0.17 42);
+  --sidebar-primary-foreground: oklch(0.17 0.02 55);
+  --sidebar-accent: oklch(0.3 0.04 55);
+  --sidebar-accent-foreground: oklch(0.94 0.02 80);
+  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-ring: oklch(0.68 0.17 42);
+
+  --lt-clay:    oklch(0.68 0.17 42);
+  --lt-saffron: oklch(0.78 0.15 78);
+  --lt-olive:   oklch(0.6 0.1 150);
+  --lt-henna:   oklch(0.62 0.19 20);
+  --lt-sand:    oklch(0.3 0.04 55);
+  --lt-ink:     oklch(0.96 0.015 80);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "ss01", "cv01";
+  }
+  ::selection {
+    background: oklch(0.58 0.16 38 / 0.25);
+  }
+}
+
+/* ── Custom scrollbar ─────────────────────────────────────────────── */
+.lt-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.lt-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.lt-scroll::-webkit-scrollbar-thumb {
+  background: oklch(0.58 0.16 38 / 0.35);
+  border-radius: 9999px;
+}
+.lt-scroll::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.58 0.16 38 / 0.6);
+}
+
+/* ── Amazigh-inspired decorative utilities ────────────────────────── */
+
+/* Warm sand gradient backdrop */
+.lt-sand-bg {
+  background:
+    radial-gradient(1200px 600px at 80% -10%, oklch(0.72 0.15 78 / 0.18), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, oklch(0.5 0.09 145 / 0.14), transparent 60%),
+    linear-gradient(180deg, var(--background), oklch(0.97 0.015 75));
+}
+.dark .lt-sand-bg {
+  background:
+    radial-gradient(1200px 600px at 80% -10%, oklch(0.68 0.17 42 / 0.18), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, oklch(0.6 0.1 150 / 0.16), transparent 60%),
+    linear-gradient(180deg, var(--background), oklch(0.15 0.02 55));
+}
+
+/* Zig-zag Amazigh border (like a woven rug edge) */
+.lt-zigzag {
+  --lt-zig: oklch(0.58 0.16 38 / 0.5);
+  background-image:
+    linear-gradient(135deg, var(--lt-zig) 25%, transparent 25%),
+    linear-gradient(225deg, var(--lt-zig) 25%, transparent 25%),
+    linear-gradient(45deg, var(--lt-zig) 25%, transparent 25%),
+    linear-gradient(315deg, var(--lt-zig) 25%, transparent 25%);
+  background-position: 0 0, 8px 0, 8px -8px, 0 8px;
+  background-size: 16px 16px;
+}
+
+/* Dotted Tifinagh-style texture */
+.lt-dots {
+  background-image: radial-gradient(oklch(0.58 0.16 38 / 0.18) 1.2px, transparent 1.2px);
+  background-size: 14px 14px;
+}
+
+/* Level colour chips */
+.lt-chip-intro {
+  background: oklch(0.5 0.09 145 / 0.14);
+  color: oklch(0.4 0.09 150);
+  border-color: oklch(0.5 0.09 145 / 0.35);
+}
+.dark .lt-chip-intro {
+  background: oklch(0.6 0.1 150 / 0.18);
+  color: oklch(0.78 0.12 150);
+  border-color: oklch(0.6 0.1 150 / 0.4);
+}
+.lt-chip-beginner {
+  background: oklch(0.72 0.15 78 / 0.18);
+  color: oklch(0.5 0.13 70);
+  border-color: oklch(0.72 0.15 78 / 0.4);
+}
+.dark .lt-chip-beginner {
+  background: oklch(0.78 0.15 78 / 0.18);
+  color: oklch(0.82 0.14 78);
+  border-color: oklch(0.78 0.15 78 / 0.4);
+}
+.lt-chip-intermediate {
+  background: oklch(0.58 0.16 38 / 0.16);
+  color: oklch(0.45 0.14 38);
+  border-color: oklch(0.58 0.16 38 / 0.4);
+}
+.dark .lt-chip-intermediate {
+  background: oklch(0.68 0.17 42 / 0.2);
+  color: oklch(0.78 0.16 42);
+  border-color: oklch(0.68 0.17 42 / 0.45);
+}
+.lt-chip-culture {
+  background: oklch(0.55 0.18 22 / 0.16);
+  color: oklch(0.42 0.16 22);
+  border-color: oklch(0.55 0.18 22 / 0.4);
+}
+.dark .lt-chip-culture {
+  background: oklch(0.62 0.19 20 / 0.2);
+  color: oklch(0.74 0.18 22);
+  border-color: oklch(0.62 0.19 20 / 0.45);
+}
+
+/* Subtle lifted card hover */
+.lt-card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.lt-card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px -16px oklch(0.58 0.16 38 / 0.4);
+}
+
+/* Tifinagh watermark text */
+.lt-tifinagh {
+  font-family: var(--font-geist-sans);
+  letter-spacing: 0.05em;
+  user-select: none;
+}
+
+/* Animated underline for nav */
+.lt-nav-link {
+  position: relative;
+}
+.lt-nav-link::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  height: 2px;
+  width: 0;
+  background: var(--primary);
+  transition: width 0.25s ease, left 0.25s ease;
+  border-radius: 2px;
+}
+.lt-nav-link:hover::after,
+.lt-nav-link[data-active="true"]::after {
+  width: 100%;
+  left: 0;
+}
+
+/* Gradient text */
+.lt-gradient-text {
+  background: linear-gradient(120deg, var(--lt-clay), var(--lt-saffron) 55%, var(--lt-henna));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Pulsing play ring */
+@keyframes lt-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 oklch(0.58 0.16 38 / 0.45); }
+  50% { box-shadow: 0 0 0 12px oklch(0.58 0.16 38 / 0); }
+}
+.lt-pulse {
+  animation: lt-pulse 2.2s ease-out infinite;
+}
+
+/* Marquee for tifinagh strip */
+@keyframes lt-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.lt-marquee {
+  animation: lt-marquee 38s linear infinite;
+}
+
+/* Fade-up entrance */
+@keyframes lt-fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.lt-fade-up {
+  animation: lt-fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lt-pulse, .lt-marquee, .lt-fade-up { animation: none !important; }
+}
