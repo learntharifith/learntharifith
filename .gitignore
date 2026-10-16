@@ -41,6 +41,17 @@ yarn-error.log*
 # screenshots
 screenshot-*.png
 
+# sandbox infrastructure (not part of the app)
+/.zscripts/
+/download/
+/examples/
+/mini-services/
+/tests/
+/skills/
+.z-ai-config
+.claude
+worklog.md
+
 # vercel
 .vercel
 
