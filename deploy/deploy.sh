@@ -3,16 +3,39 @@
 # Run on the Contabo VPS as root (or with sudo).
 #
 # Usage:
-#   bash deploy/deploy.sh
+#   bash deploy/deploy.sh                    # dev (default)
+#   APP_ENV=prod bash deploy/deploy.sh       # production
+#
+# Override individual values with env vars:
+#   APP_DIR=/path APP_USER=user PORT=3002 APP_NAME=foo bash deploy/deploy.sh
 
 set -euo pipefail
 
-APP_DIR="/home/dev.learntharifith.com/nextapp"
-APP_USER="devle3501"
-PORT="3001"
+# ── Environment selection ────────────────────────────────────────────
+APP_ENV="${APP_ENV:-dev}"
+
+if [[ "$APP_ENV" == "prod" ]]; then
+  APP_DIR="${APP_DIR:-/home/learntharifith.com/nextapp}"
+  APP_USER="${APP_USER:-learn1607}"
+  PORT="${PORT:-3002}"
+  APP_NAME="${APP_NAME:-learntharifith}"
+  ECO_FILE="${ECO_FILE:-ecosystem.prod.config.cjs}"
+else
+  APP_DIR="${APP_DIR:-/home/dev.learntharifith.com/nextapp}"
+  APP_USER="${APP_USER:-devle3501}"
+  PORT="${PORT:-3001}"
+  APP_NAME="${APP_NAME:-learntharifith-dev}"
+  ECO_FILE="${ECO_FILE:-ecosystem.config.cjs}"
+fi
+
 REPO_URL="${1:-}"   # optional: git URL to clone from
 
-echo "▶ Learntharifith deploy — $(date '+%F %T')"
+echo "▶ Learntharifith deploy — $(date '+%F %T')  [$APP_ENV env]"
+echo "  APP_DIR  : $APP_DIR"
+echo "  APP_USER : $APP_USER"
+echo "  PORT     : $PORT"
+echo "  APP_NAME : $APP_NAME"
+echo ""
 
 # ── 0. Prerequisite checks (fail fast with a helpful message) ────────
 echo "▶ [0/8] Checking prerequisites…"
@@ -70,13 +93,16 @@ cd "$APP_DIR"
 echo "▶ [2/8] Installing dependencies…"
 sudo -u "$APP_USER" bash -lc "cd '$APP_DIR' && bun install --frozen-lockfile"
 
-# 3. Env file
+# 3. Env file (with correct PORT for this environment)
 echo "▶ [3/8] Writing .env…"
 if [[ ! -f "$APP_DIR/.env" ]]; then
   cp "$APP_DIR/.env.production.example" "$APP_DIR/.env"
+  # Override PORT and DATABASE_URL for this environment
+  sed -i "s|^PORT=.*|PORT=$PORT|" "$APP_DIR/.env"
+  sed -i "s|^DATABASE_URL=.*|DATABASE_URL=file:$APP_DIR/db/custom.db|" "$APP_DIR/.env"
   chown "$APP_USER:$APP_USER" "$APP_DIR/.env"
   chmod 600 "$APP_DIR/.env"
-  echo "  created .env from template"
+  echo "  created .env (PORT=$PORT, DB=$APP_DIR/db/custom.db)"
 else
   echo "  .env already exists — keeping it"
 fi
@@ -95,12 +121,17 @@ sudo -u "$APP_USER" bash -lc "cd '$APP_DIR' && bun run build"
 
 # 7. Restart PM2
 echo "▶ [7/8] Restarting PM2…"
-if pm2 describe learntharifith-dev >/dev/null 2>&1; then
-  pm2 restart learntharifith-dev --update-env
-  echo "  restarted existing app"
+if pm2 describe "$APP_NAME" >/dev/null 2>&1; then
+  pm2 restart "$APP_NAME" --update-env
+  echo "  restarted existing app ($APP_NAME)"
 else
-  pm2 start ecosystem.config.cjs
-  echo "  started new app"
+  if [[ -f "$APP_DIR/$ECO_FILE" ]]; then
+    pm2 start "$ECO_FILE"
+  else
+    # Fallback: start directly if no ecosystem file
+    pm2 start .next/standalone/server.js --name "$APP_NAME" --cwd "$APP_DIR"
+  fi
+  echo "  started new app ($APP_NAME)"
 fi
 pm2 save
 
@@ -110,13 +141,17 @@ sleep 2
 if curl -sf -o /dev/null -m 5 "http://127.0.0.1:$PORT"; then
   echo "  ✓  app responding on port $PORT"
 else
-  echo "  ⚠  app not responding yet — check: pm2 logs learntharifith-dev --lines 30"
+  echo "  ⚠  app not responding yet — check: pm2 logs $APP_NAME --lines 30"
 fi
 
 echo ""
-echo "✅ Deploy complete."
+echo "✅ Deploy complete.  [$APP_ENV env]"
 echo "   Local:  http://127.0.0.1:$PORT"
-echo "   Public: https://dev.learntharifith.com  (once OLS proxy is configured)"
+if [[ "$APP_ENV" == "prod" ]]; then
+  echo "   Public: https://www.learntharifith.com  (once OLS proxy is configured)"
+else
+  echo "   Public: https://dev.learntharifith.com  (once OLS proxy is configured)"
+fi
 echo ""
-echo "   Logs:   pm2 logs learntharifith-dev --lines 50"
+echo "   Logs:   pm2 logs $APP_NAME --lines 50"
 
