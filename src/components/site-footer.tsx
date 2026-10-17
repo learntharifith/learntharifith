@@ -1,6 +1,6 @@
 'use client'
 
-import { Heart, Mail, Youtube, Coffee } from 'lucide-react'
+import { Heart, Mail, Youtube, Coffee, PenLine } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useApp, type TabId } from '@/lib/store'
 import { AmazighBand, TifinaghStrip } from '@/components/amazigh-pattern'
@@ -8,7 +8,7 @@ import { AmazighBand, TifinaghStrip } from '@/components/amazigh-pattern'
 const KOFI_1 = 'https://ko-fi.com/summary/06275ede-c500-4330-93ee-f52addb9eabb'
 const KOFI_2 = 'https://ko-fi.com/summary/b6135d33-d4f0-4a3f-ac75-d0e6ccacb378'
 
-export function SiteFooter() {
+export function SiteFooter({ onAuthorClick }: { onAuthorClick?: () => void }) {
   const { setActiveTab } = useApp()
   const go = (t: TabId) => {
     setActiveTab(t)
@@ -97,7 +97,19 @@ export function SiteFooter() {
             © {new Date().getFullYear()} Learntharifith. Made with care for the
             Riffian language.
           </p>
-          <p className="lt-tifinagh">ⵜⴰⵣⵡⴽⵉ ⵏ ⵜⵎⴰⵣⵉⵖⵜ</p>
+          <div className="flex items-center gap-4">
+            <p className="lt-tifinagh">ⵜⴰⵣⵡⴽⵉ ⵏ ⵜⵎⴰⵣⵉⵖⵜ</p>
+            {onAuthorClick && (
+              <button
+                onClick={onAuthorClick}
+                title="Author login"
+                className="inline-flex items-center gap-1 text-muted-foreground/60 transition-colors hover:text-primary"
+              >
+                <PenLine className="h-3.5 w-3.5" />
+                <span className="sr-only sm:not-sr-only">Author</span>
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </footer>

@@ -5,6 +5,7 @@ import { useApp } from '@/lib/store'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { LessonModal } from '@/components/lesson-modal'
+import { AuthorPanel } from '@/components/author-panel'
 import { HomeContent } from '@/components/sections/home-content'
 import { LearnSection } from '@/components/sections/learn-section'
 import { CultureSection } from '@/components/sections/culture-section'
@@ -15,6 +16,8 @@ import { SupportSection } from '@/components/sections/support-section'
 export default function Home() {
   const { activeTab, setLessons, setCompleted, setBrowserId } = useApp()
   const [ready, setReady] = React.useState(false)
+  const [authorOpen, setAuthorOpen] = React.useState(false)
+  const [articlesNonce, setArticlesNonce] = React.useState(0)
 
   // Boot: generate browser id, fetch lessons + progress
   React.useEffect(() => {
@@ -66,7 +69,7 @@ export default function Home() {
     return () => {
       alive = false
     }
-  }, [])
+  }, [setBrowserId, setCompleted, setLessons])
 
   // Listen for cross-tab progress sync
   React.useEffect(() => {
@@ -85,26 +88,33 @@ export default function Home() {
         {!ready ? (
           <BootSkeleton />
         ) : (
-          <TabView tab={activeTab} />
+          <TabView tab={activeTab} articlesNonce={articlesNonce} />
         )}
       </main>
 
-      <SiteFooter />
+      <SiteFooter onAuthorClick={() => setAuthorOpen(true)} />
 
       {/* Global lesson modal */}
       <LessonModal />
+
+      {/* Author panel */}
+      <AuthorPanel
+        open={authorOpen}
+        onClose={() => setAuthorOpen(false)}
+        onArticlesChanged={() => setArticlesNonce((n) => n + 1)}
+      />
     </div>
   )
 }
 
-function TabView({ tab }: { tab: string }) {
+function TabView({ tab, articlesNonce }: { tab: string; articlesNonce: number }) {
   switch (tab) {
     case 'home':
-      return <HomeContent />
+      return <HomeContent key={`home-${articlesNonce}`} />
     case 'learn':
       return <LearnSection />
     case 'culture':
-      return <CultureSection />
+      return <CultureSection key={`culture-${articlesNonce}`} />
     case 'shop':
       return <ShopSection />
     case 'courses':
@@ -112,7 +122,7 @@ function TabView({ tab }: { tab: string }) {
     case 'support':
       return <SupportSection />
     default:
-      return <HomeContent />
+      return <HomeContent key={`home-${articlesNonce}`} />
   }
 }
 
