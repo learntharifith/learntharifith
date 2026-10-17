@@ -10,14 +10,21 @@ import { useApp, LEVEL_LABELS, LEVEL_META, type LevelFilter } from '@/lib/store'
 import { LessonCard } from '@/components/lesson-card'
 import { AmazighBand } from '@/components/amazigh-pattern'
 
-const LEVELS: LevelFilter[] = ['all', 'intro', 'beginner', 'intermediate', 'culture']
+// Culture videos live in the Culture section — Learn only shows the learning path.
+const LEVELS: LevelFilter[] = ['all', 'intro', 'beginner', 'intermediate']
 
 export function LearnSection() {
   const { lessons, level, setLevel, query, setQuery, completed } = useApp()
 
+  // Exclude culture videos — they belong to the Culture tab now
+  const learnLessons = React.useMemo(
+    () => lessons.filter((l) => l.level !== 'culture'),
+    [lessons],
+  )
+
   const filtered = React.useMemo(() => {
     const q = query.trim().toLowerCase()
-    return lessons.filter((l) => {
+    return learnLessons.filter((l) => {
       if (level !== 'all' && l.level !== level) return false
       if (q) {
         const hay = `${l.title} ${l.description} ${l.level}`.toLowerCase()
@@ -25,10 +32,11 @@ export function LearnSection() {
       }
       return true
     })
-  }, [lessons, level, query])
+  }, [learnLessons, level, query])
 
   const doneCount = completed.size
-  const pct = lessons.length > 0 ? Math.round((doneCount / lessons.length) * 100) : 0
+  const totalForProgress = learnLessons.length
+  const pct = totalForProgress > 0 ? Math.round((doneCount / totalForProgress) * 100) : 0
 
   // group filtered by level for the "all" view
   const grouped = React.useMemo(() => {
@@ -50,9 +58,10 @@ export function LearnSection() {
           The full Riffian learning path
         </h2>
         <p className="max-w-2xl text-muted-foreground">
-          {lessons.length} video lessons organised from your very first sounds
-          to confident conversations and the stories of the Rif. Click any
-          lesson to play it — your progress is saved on this device.
+          {learnLessons.length} video lessons organised from your very first
+          sounds to confident conversations. Click any lesson to play it — your
+          progress is saved on this device. Culture videos live in the Culture
+          tab.
         </p>
       </div>
 
@@ -64,7 +73,7 @@ export function LearnSection() {
             <span className="text-sm font-semibold">Your progress</span>
           </div>
           <span className="text-sm font-medium text-muted-foreground">
-            {doneCount} / {lessons.length} lessons · {pct}%
+            {doneCount} / {totalForProgress} lessons · {pct}%
           </span>
         </div>
         <Progress value={pct} className="mt-3 h-2" />

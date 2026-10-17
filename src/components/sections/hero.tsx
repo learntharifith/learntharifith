@@ -4,6 +4,7 @@ import { PlayCircle, BookOpen, Sparkles, Globe2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useApp } from '@/lib/store'
 import { AmazighField, AmazighBand } from '@/components/amazigh-pattern'
+import { ShareBar } from '@/components/share-buttons'
 
 export function Hero({ totalLessons }: { totalLessons: number }) {
   const { setActiveTab, lessons, openLessonById } = useApp()
@@ -40,7 +41,7 @@ export function Hero({ totalLessons }: { totalLessons: number }) {
             </span>
 
             <h1 className="mt-5 text-4xl font-extrabold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-              Learn the{' '}
+              Learn{' '}
               <span className="lt-gradient-text">Riffian</span>
               <br className="hidden sm:block" /> language.
             </h1>
@@ -83,6 +84,11 @@ export function Hero({ totalLessons }: { totalLessons: number }) {
               <Stat value="4" label="Learning levels" />
               <Stat value="100%" label="Free, forever" />
             </dl>
+
+            {/* Share buttons */}
+            <div className="mt-6">
+              <ShareBar />
+            </div>
           </div>
 
           {/* Right — featured lessons stack */}

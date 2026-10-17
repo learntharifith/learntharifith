@@ -1,46 +1,17 @@
 'use client'
 
 import * as React from 'react'
-import { BookOpen, Clock, PlayCircle, ArrowRight } from 'lucide-react'
+import { BookOpen, ArrowRight, MessageCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useApp } from '@/lib/store'
 import { LessonCard } from '@/components/lesson-card'
 import { AmazighBand } from '@/components/amazigh-pattern'
-
-type Article = {
-  id: string
-  title: string
-  slug: string
-  excerpt: string
-  content: string
-  coverImage: string | null
-  category: string
-  readMins: number
-}
+import { SITE_LINKS } from '@/lib/links'
 
 export function CultureSection() {
   const { lessons, setActiveTab } = useApp()
   const cultureLessons = lessons.filter((l) => l.level === 'culture')
-
-  const [articles, setArticles] = React.useState<Article[]>([])
-  const [loading, setLoading] = React.useState(true)
-  const [openArticle, setOpenArticle] = React.useState<Article | null>(null)
-
-  React.useEffect(() => {
-    let alive = true
-    fetch('/api/articles')
-      .then((r) => r.json())
-      .then((d) => {
-        if (alive) setArticles(d.articles ?? [])
-      })
-      .catch(() => {})
-      .finally(() => alive && setLoading(false))
-    return () => {
-      alive = false
-    }
-  }, [])
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
@@ -84,39 +55,33 @@ export function CultureSection() {
         )}
       </div>
 
-      {/* Articles */}
-      <div className="mt-14">
-        <div className="mb-4 flex items-end justify-between gap-3">
-          <h3 className="text-lg font-bold text-foreground">Articles &amp; essays</h3>
-          <span className="text-sm text-muted-foreground">
-            {articles.length} {articles.length === 1 ? 'piece' : 'pieces'}
-          </span>
+      {/* WhatsApp channel banner */}
+      <div className="mt-10 overflow-hidden rounded-2xl border border-emerald-500/25 bg-emerald-500/[0.05] p-5 sm:p-6">
+        <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-start gap-3">
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-emerald-500/15 text-emerald-600">
+              <MessageCircle className="h-5 w-5" />
+            </span>
+            <div>
+              <h3 className="text-base font-bold text-foreground">
+                Daily tasks &amp; lessons on WhatsApp
+              </h3>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Join the WhatsApp channel for a new Riffian task every day —
+                vocabulary, phrases and mini-challenges to keep you learning.
+              </p>
+            </div>
+          </div>
+          <Button asChild className="shrink-0 gap-2 bg-emerald-600 text-white hover:bg-emerald-700">
+            <a href={SITE_LINKS.whatsapp} target="_blank" rel="noreferrer noopener">
+              <MessageCircle className="h-4 w-4" /> Join channel
+            </a>
+          </Button>
         </div>
-
-        {loading ? (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <Skeleton key={i} className="h-56 rounded-2xl" />
-            ))}
-          </div>
-        ) : articles.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No articles yet — check back soon.</p>
-        ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {articles.map((a) => (
-              <ArticleCard key={a.id} article={a} onOpen={() => setOpenArticle(a)} />
-            ))}
-          </div>
-        )}
       </div>
 
-      {/* Article reader */}
-      {openArticle && (
-        <ArticleReader article={openArticle} onClose={() => setOpenArticle(null)} />
-      )}
-
       {/* CTA to lessons */}
-      <div className="mt-14 flex flex-col items-start gap-4 rounded-2xl border border-border bg-card p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+      <div className="mt-10 flex flex-col items-start gap-4 rounded-2xl border border-border bg-card p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
         <div>
           <h3 className="text-xl font-bold text-foreground">Ready to speak Riffian?</h3>
           <p className="mt-1 text-sm text-muted-foreground">
@@ -136,81 +101,5 @@ export function CultureSection() {
         <AmazighBand className="h-4 w-full" color="currentColor" />
       </div>
     </section>
-  )
-}
-
-function ArticleCard({ article, onOpen }: { article: Article; onOpen: () => void }) {
-  return (
-    <button
-      onClick={onOpen}
-      className="lt-card-hover group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card text-left shadow-sm"
-    >
-      {/* Decorative cover (since we have no real images) */}
-      <div className="relative h-32 overflow-hidden bg-gradient-to-br from-primary/15 via-primary/5 to-primary/10">
-        <div className="absolute inset-0 lt-dots opacity-60" />
-        <span className="absolute bottom-2.5 left-3 inline-flex items-center gap-1 rounded-full bg-background/85 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary backdrop-blur">
-          {article.category}
-        </span>
-      </div>
-      <div className="flex flex-1 flex-col p-4">
-        <h4 className="line-clamp-2 text-sm font-semibold leading-snug text-foreground group-hover:text-primary">
-          {article.title}
-        </h4>
-        <p className="mt-1.5 line-clamp-3 text-xs leading-relaxed text-muted-foreground">
-          {article.excerpt}
-        </p>
-        <div className="mt-3 flex items-center justify-between text-[11px] text-muted-foreground">
-          <span className="inline-flex items-center gap-1">
-            <Clock className="h-3 w-3" /> {article.readMins} min read
-          </span>
-          <span className="inline-flex items-center gap-1 font-medium text-primary">
-            Read <ArrowRight className="h-3 w-3" />
-          </span>
-        </div>
-      </div>
-    </button>
-  )
-}
-
-function ArticleReader({ article, onClose }: { article: Article; onClose: () => void }) {
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 p-4 backdrop-blur-sm"
-      onClick={onClose}
-    >
-      <div
-        className="my-8 w-full max-w-2xl rounded-2xl border border-border bg-card p-6 shadow-xl sm:p-8"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="flex items-start justify-between gap-3">
-          <Badge variant="outline" className="rounded-full">
-            {article.category}
-          </Badge>
-          <button
-            onClick={onClose}
-            className="rounded-full p-1 text-muted-foreground hover:bg-muted hover:text-foreground"
-            aria-label="Close article"
-          >
-            ✕
-          </button>
-        </div>
-        <h2 className="mt-3 text-2xl font-bold leading-tight text-foreground sm:text-3xl">
-          {article.title}
-        </h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          {article.readMins} min read
-        </p>
-        <div className="mt-5 h-32 overflow-hidden rounded-xl bg-gradient-to-br from-primary/15 via-primary/5 to-primary/10">
-          <div className="h-full w-full lt-dots opacity-60" />
-        </div>
-        <article className="prose prose-sm mt-6 max-w-none text-foreground/85">
-          {article.content.split('\n').map((p, i) => (
-            <p key={i} className="mb-4 leading-relaxed">
-              {p}
-            </p>
-          ))}
-        </article>
-      </div>
-    </div>
   )
 }

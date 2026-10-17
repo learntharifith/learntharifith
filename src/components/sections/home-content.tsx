@@ -11,12 +11,15 @@ import {
   Coffee,
   GraduationCap,
   Sparkles,
+  MessageCircle,
+  Newspaper,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useApp, LEVEL_META } from '@/lib/store'
 import { Hero } from '@/components/sections/hero'
 import { LessonCard } from '@/components/lesson-card'
 import { AmazighBand } from '@/components/amazigh-pattern'
+import { SITE_LINKS } from '@/lib/links'
 
 type ArticleLite = {
   id: string
@@ -39,7 +42,7 @@ type CourseLite = {
   students: number
 }
 
-const KOFI_1 = 'https://ko-fi.com/summary/06275ede-c500-4330-93ee-f52addb9eabb'
+const KOFI_1 = SITE_LINKS.kofi
 
 export function HomeContent() {
   const { lessons, setActiveTab, completed } = useApp()
@@ -149,23 +152,23 @@ export function HomeContent() {
         </section>
       )}
 
-      {/* Culture preview */}
+      {/* Articles preview */}
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
         <div className="flex items-end justify-between gap-3">
           <div>
             <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-primary">
-              <BookHeart className="h-3.5 w-3.5" /> Culture
+              <Newspaper className="h-3.5 w-3.5" /> Articles
             </span>
             <h2 className="mt-1 text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
               Stories of the Rif
             </h2>
             <p className="mt-2 max-w-2xl text-muted-foreground">
-              The language lives in its stories. Read, watch and understand the
-              world your new words come from.
+              Long-form writing on Amazigh culture — Yennayer, Tifinagh, music,
+              tattoos and folklore.
             </p>
           </div>
-          <Button variant="outline" className="gap-1.5" onClick={() => setActiveTab('culture')}>
-            All culture <ArrowRight className="h-4 w-4" />
+          <Button variant="outline" className="gap-1.5" onClick={() => setActiveTab('articles')}>
+            All articles <ArrowRight className="h-4 w-4" />
           </Button>
         </div>
 
@@ -180,10 +183,18 @@ export function HomeContent() {
             : articles.map((a) => (
                 <div
                   key={a.id}
-                  className="lt-card-hover group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
+                  className="lt-card-hover-gold group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
                 >
                   <div className="relative h-28 overflow-hidden bg-gradient-to-br from-primary/15 via-primary/5 to-primary/10">
-                    <div className="absolute inset-0 lt-dots opacity-60" />
+                    {a.coverImage ? (
+                      <img
+                        src={a.coverImage}
+                        alt={a.title}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 lt-dots opacity-60" />
+                    )}
                     <span className="absolute bottom-2.5 left-3 rounded-full bg-background/85 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary backdrop-blur">
                       {a.category}
                     </span>
@@ -267,6 +278,30 @@ export function HomeContent() {
                   </div>
                 ))}
           </div>
+        </div>
+      </section>
+
+      {/* WhatsApp channel banner */}
+      <section className="mx-auto max-w-7xl px-4 pb-4 sm:px-6">
+        <div className="flex flex-col items-start gap-4 rounded-2xl border border-emerald-500/25 bg-emerald-500/[0.05] p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+          <div className="flex items-start gap-3">
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-emerald-500/15 text-emerald-600">
+              <MessageCircle className="h-5 w-5" />
+            </span>
+            <div>
+              <h3 className="text-base font-bold text-foreground">
+                Daily Riffian tasks on WhatsApp
+              </h3>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Join the channel for a new vocabulary or phrase task every day.
+              </p>
+            </div>
+          </div>
+          <Button asChild className="shrink-0 gap-2 bg-emerald-600 text-white hover:bg-emerald-700">
+            <a href={SITE_LINKS.whatsapp} target="_blank" rel="noreferrer noopener">
+              <MessageCircle className="h-4 w-4" /> Join channel
+            </a>
+          </Button>
         </div>
       </section>
 

@@ -1,12 +1,10 @@
 'use client'
 
-import { Heart, Mail, Youtube, Coffee, PenLine } from 'lucide-react'
+import { Heart, Mail, Youtube, Coffee, PenLine, MessageCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useApp, type TabId } from '@/lib/store'
 import { AmazighBand, TifinaghStrip } from '@/components/amazigh-pattern'
-
-const KOFI_1 = 'https://ko-fi.com/summary/06275ede-c500-4330-93ee-f52addb9eabb'
-const KOFI_2 = 'https://ko-fi.com/summary/b6135d33-d4f0-4a3f-ac75-d0e6ccacb378'
+import { SITE_LINKS } from '@/lib/links'
 
 export function SiteFooter({ onAuthorClick }: { onAuthorClick?: () => void }) {
   const { setActiveTab } = useApp()
@@ -22,8 +20,50 @@ export function SiteFooter({ onAuthorClick }: { onAuthorClick?: () => void }) {
         <TifinaghStrip className="text-sm font-medium" />
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
+        {/* Mobile: compact layout (brand + support + copyright) */}
+        <div className="md:hidden">
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-base font-extrabold tracking-tight">
+              Learn<span className="text-primary">tharifith</span>
+            </span>
+            <div className="flex items-center gap-1.5">
+              <Button asChild variant="outline" size="sm" className="h-8 gap-1.5 px-2.5">
+                <a href={SITE_LINKS.kofi} target="_blank" rel="noreferrer noopener">
+                  <Coffee className="h-3.5 w-3.5" />
+                </a>
+              </Button>
+              <Button asChild variant="outline" size="sm" className="h-8 gap-1.5 px-2.5">
+                <a href={SITE_LINKS.whatsapp} target="_blank" rel="noreferrer noopener">
+                  <MessageCircle className="h-3.5 w-3.5" />
+                </a>
+              </Button>
+              <Button asChild variant="outline" size="sm" className="h-8 gap-1.5 px-2.5">
+                <a href={SITE_LINKS.youtube} target="_blank" rel="noreferrer noopener">
+                  <Youtube className="h-3.5 w-3.5" />
+                </a>
+              </Button>
+            </div>
+          </div>
+          <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+            Free Riffian Amazigh lessons and the culture of the Rif.
+          </p>
+          {/* Mobile nav — single row scroll */}
+          <nav className="mt-4 flex flex-wrap gap-x-4 gap-y-1.5" aria-label="Footer">
+            {(['home', 'learn', 'culture', 'articles', 'shop', 'courses', 'support'] as TabId[]).map((t) => (
+              <button
+                key={t}
+                onClick={() => go(t)}
+                className="text-xs font-medium capitalize text-foreground/70 transition-colors hover:text-primary"
+              >
+                {t}
+              </button>
+            ))}
+          </nav>
+        </div>
+
+        {/* Desktop: full 4-column layout */}
+        <div className="hidden gap-10 md:grid md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2">
@@ -37,13 +77,13 @@ export function SiteFooter({ onAuthorClick }: { onAuthorClick?: () => void }) {
             </p>
             <div className="mt-5 flex flex-wrap items-center gap-2">
               <Button asChild variant="outline" size="sm" className="h-8 gap-1.5">
-                <a href={KOFI_1} target="_blank" rel="noreferrer noopener">
+                <a href={SITE_LINKS.kofi} target="_blank" rel="noreferrer noopener">
                   <Coffee className="h-3.5 w-3.5" /> Buy me a coffee
                 </a>
               </Button>
               <Button asChild variant="outline" size="sm" className="h-8 gap-1.5">
-                <a href={KOFI_2} target="_blank" rel="noreferrer noopener">
-                  <Heart className="h-3.5 w-3.5" /> Support the project
+                <a href={SITE_LINKS.whatsapp} target="_blank" rel="noreferrer noopener">
+                  <MessageCircle className="h-3.5 w-3.5" /> WhatsApp
                 </a>
               </Button>
             </div>
@@ -54,6 +94,7 @@ export function SiteFooter({ onAuthorClick }: { onAuthorClick?: () => void }) {
             <FooterLink onClick={() => go('home')}>Home</FooterLink>
             <FooterLink onClick={() => go('learn')}>Lessons</FooterLink>
             <FooterLink onClick={() => go('culture')}>Culture</FooterLink>
+            <FooterLink onClick={() => go('articles')}>Articles</FooterLink>
             <FooterLink onClick={() => go('courses')}>Courses</FooterLink>
             <FooterLink onClick={() => go('shop')}>Shop</FooterLink>
           </FooterCol>
@@ -64,21 +105,27 @@ export function SiteFooter({ onAuthorClick }: { onAuthorClick?: () => void }) {
             <FooterLink onClick={() => go('learn')}>Beginner</FooterLink>
             <FooterLink onClick={() => go('learn')}>Intermediate</FooterLink>
             <FooterLink onClick={() => go('culture')}>Culture &amp; stories</FooterLink>
+            <FooterLink onClick={() => go('articles')}>Articles</FooterLink>
           </FooterCol>
 
           {/* Connect */}
           <FooterCol title="Connect">
-            <FooterLink href="https://www.youtube.com/@learntharifith" external>
+            <FooterLink href={SITE_LINKS.youtube} external>
               <span className="inline-flex items-center gap-1.5">
                 <Youtube className="h-3.5 w-3.5" /> YouTube
               </span>
             </FooterLink>
-            <FooterLink href="mailto:hello@learntharifith.com">
+            <FooterLink href={SITE_LINKS.whatsapp} external>
+              <span className="inline-flex items-center gap-1.5">
+                <MessageCircle className="h-3.5 w-3.5" /> WhatsApp channel
+              </span>
+            </FooterLink>
+            <FooterLink href={SITE_LINKS.email}>
               <span className="inline-flex items-center gap-1.5">
                 <Mail className="h-3.5 w-3.5" /> Email
               </span>
             </FooterLink>
-            <FooterLink href={KOFI_1} external>
+            <FooterLink href={SITE_LINKS.kofi} external>
               <span className="inline-flex items-center gap-1.5">
                 <Coffee className="h-3.5 w-3.5" /> Ko-fi
               </span>
@@ -88,7 +135,7 @@ export function SiteFooter({ onAuthorClick }: { onAuthorClick?: () => void }) {
         </div>
 
         {/* Amazigh band divider */}
-        <div className="my-8 text-primary/40">
+        <div className="my-6 text-primary/40 md:my-8">
           <AmazighBand className="h-4 w-full" color="currentColor" />
         </div>
 

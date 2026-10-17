@@ -12,6 +12,7 @@ const TABS: { id: TabId; label: string }[] = [
   { id: 'home', label: 'Home' },
   { id: 'learn', label: 'Learn' },
   { id: 'culture', label: 'Culture' },
+  { id: 'articles', label: 'Articles' },
   { id: 'shop', label: 'Shop' },
   { id: 'courses', label: 'Courses' },
   { id: 'support', label: 'Support' },

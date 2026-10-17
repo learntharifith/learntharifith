@@ -1,12 +1,11 @@
 'use client'
 
-import { Coffee, Heart, Youtube, Mail, Sparkles, HandHeart, Share2 } from 'lucide-react'
+import { Coffee, Heart, Youtube, Mail, Sparkles, HandHeart, Share2, MessageCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useApp } from '@/lib/store'
 import { AmazighBand, TifinaghStrip } from '@/components/amazigh-pattern'
-
-const KOFI_1 = 'https://ko-fi.com/summary/06275ede-c500-4330-93ee-f52addb9eabb'
-const KOFI_2 = 'https://ko-fi.com/summary/b6135d33-d4f0-4a3f-ac75-d0e6ccacb378'
+import { ShareBar } from '@/components/share-buttons'
+import { SITE_LINKS } from '@/lib/links'
 
 export function SupportSection() {
   const { setActiveTab } = useApp()
@@ -27,14 +26,39 @@ export function SupportSection() {
         </p>
       </div>
 
-      {/* Ko-fi cards */}
-      <div className="mt-10 grid gap-5 md:grid-cols-2">
+      {/* WhatsApp channel — prominent */}
+      <div className="mt-8 overflow-hidden rounded-3xl border border-emerald-500/30 bg-emerald-500/[0.06]">
+        <div className="p-6 sm:p-8">
+          <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+            <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-emerald-500/15 text-emerald-600">
+              <MessageCircle className="h-7 w-7" />
+            </span>
+            <div className="flex-1">
+              <h3 className="text-xl font-bold text-foreground">
+                Join the WhatsApp channel
+              </h3>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Daily Riffian tasks, new lesson alerts, vocabulary challenges
+                and community — all on WhatsApp. Free to join.
+              </p>
+            </div>
+            <Button asChild className="shrink-0 gap-2 bg-emerald-600 text-white hover:bg-emerald-700">
+              <a href={SITE_LINKS.whatsapp} target="_blank" rel="noreferrer noopener">
+                <MessageCircle className="h-4 w-4" /> Join channel
+              </a>
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Ko-fi support cards */}
+      <div className="mt-8 grid gap-5 md:grid-cols-2">
         <SupportCard
           icon={<Coffee className="h-6 w-6" />}
           title="Buy me a coffee"
           desc="A one-off thank-you that fuels the next lesson. Every coffee goes straight into recording, editing and hosting."
           cta="Buy a coffee"
-          href={KOFI_1}
+          href={SITE_LINKS.kofi}
           accent="bg-amber-500/10 text-amber-600 ring-amber-500/20"
         />
         <SupportCard
@@ -42,13 +66,31 @@ export function SupportSection() {
           title="Become a supporter"
           desc="Join the monthly supporters who keep the project sustainable. Perks include early access and your name in the credits."
           cta="Support monthly"
-          href={KOFI_2}
+          href={SITE_LINKS.kofi}
           accent="bg-primary/10 text-primary ring-primary/20"
         />
       </div>
 
+      {/* Share the website */}
+      <div className="mt-8 rounded-2xl border border-border bg-card p-6 sm:p-8">
+        <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-start gap-3">
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
+              <Share2 className="h-5 w-5" />
+            </span>
+            <div>
+              <h3 className="text-base font-bold text-foreground">Share the website</h3>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Know someone who wants to learn Riffian? Share it on social media.
+              </p>
+            </div>
+          </div>
+          <ShareBar compact />
+        </div>
+      </div>
+
       {/* Other ways */}
-      <div className="mt-12">
+      <div className="mt-10">
         <h3 className="text-center text-lg font-bold text-foreground">Other ways to help</h3>
         <div className="mt-5 grid gap-4 sm:grid-cols-3">
           <WayCard
@@ -56,17 +98,17 @@ export function SupportSection() {
             title="Watch & subscribe"
             desc="Subscribing and watching on YouTube is free support that helps the channel grow."
             cta="YouTube channel"
-            href="https://www.youtube.com/@learntharifith"
+            href={SITE_LINKS.youtube}
           />
           <WayCard
             icon={<Share2 className="h-5 w-5" />}
             title="Share with a learner"
-            desc="Know someone who wants to learn Riffian? Send them the link — every share matters."
+            desc="Send the link to anyone learning Riffian — every share matters."
             cta="Copy link"
             href="#"
             onClick={() => {
               if (typeof navigator !== 'undefined' && navigator.clipboard) {
-                navigator.clipboard.writeText('https://dev.learntharifith.com')
+                navigator.clipboard.writeText(SITE_LINKS.site)
               }
             }}
           />
@@ -75,13 +117,13 @@ export function SupportSection() {
             title="Send feedback"
             desc="Tell me what lessons you want next, what was confusing, what you loved. I read every message."
             cta="Email me"
-            href="mailto:hello@learntharifith.com"
+            href={SITE_LINKS.email}
           />
         </div>
       </div>
 
       {/* Promise */}
-      <div className="mt-12 overflow-hidden rounded-3xl border border-primary/25 bg-gradient-to-br from-primary/[0.06] via-card to-card">
+      <div className="mt-10 overflow-hidden rounded-3xl border border-primary/25 bg-gradient-to-br from-primary/[0.06] via-card to-card">
         <div className="border-b border-border/60 bg-primary/[0.04] py-2 text-primary/70">
           <TifinaghStrip className="text-sm font-medium" />
         </div>
@@ -104,7 +146,7 @@ export function SupportSection() {
 
           <div className="mt-6 flex flex-wrap gap-3">
             <Button asChild className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
-              <a href={KOFI_1} target="_blank" rel="noreferrer noopener">
+              <a href={SITE_LINKS.kofi} target="_blank" rel="noreferrer noopener">
                 <Coffee className="h-4 w-4" /> Buy me a coffee
               </a>
             </Button>

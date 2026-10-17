@@ -9,6 +9,7 @@ import { AuthorPanel } from '@/components/author-panel'
 import { HomeContent } from '@/components/sections/home-content'
 import { LearnSection } from '@/components/sections/learn-section'
 import { CultureSection } from '@/components/sections/culture-section'
+import { ArticlesSection } from '@/components/sections/articles-section'
 import { ShopSection } from '@/components/sections/shop-section'
 import { CoursesSection } from '@/components/sections/courses-section'
 import { SupportSection } from '@/components/sections/support-section'
@@ -137,7 +138,9 @@ function TabView({
     case 'learn':
       return <LearnSection key={`learn-${lessonsNonce}`} />
     case 'culture':
-      return <CultureSection key={`culture-${articlesNonce}`} />
+      return <CultureSection key={`culture-${lessonsNonce}`} />
+    case 'articles':
+      return <ArticlesSection key={`articles-${articlesNonce}`} />
     case 'shop':
       return <ShopSection />
     case 'courses':

@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useApp } from '@/lib/store'
 import { AmazighBand } from '@/components/amazigh-pattern'
+import { SITE_LINKS } from '@/lib/links'
 
 type Product = {
   id: string
@@ -131,7 +132,7 @@ function ProductCard({ product, glyph }: { product: Product; glyph: string }) {
             className="h-8 gap-1 bg-primary text-primary-foreground hover:bg-primary/90"
           >
             <a
-              href={`https://ko-fi.com/summary/06275ede-c500-4330-93ee-f52addb9eabb`}
+              href={SITE_LINKS.kofi}
               target="_blank"
               rel="noreferrer noopener"
             >

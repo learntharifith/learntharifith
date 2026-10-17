@@ -1,12 +1,13 @@
 'use client'
 
 import * as React from 'react'
-import { GraduationCap, Clock, Users, Star, BookOpen, ArrowRight, PlayCircle } from 'lucide-react'
+import { GraduationCap, Clock, Users, Star, BookOpen, ArrowRight, PlayCircle, User, Users2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useApp } from '@/lib/store'
 import { AmazighBand } from '@/components/amazigh-pattern'
+import { SITE_LINKS } from '@/lib/links'
 
 type Course = {
   id: string
@@ -73,6 +74,62 @@ export function CoursesSection() {
           ))}
         </div>
       )}
+
+      {/* Private + Group lessons (Ko-fi tiers) */}
+      <div className="mt-12">
+        <div className="mb-4 flex items-center gap-2">
+          <Users className="h-5 w-5 text-primary" />
+          <h3 className="text-lg font-bold text-foreground">Live lessons with a teacher</h3>
+        </div>
+        <p className="mb-5 max-w-2xl text-sm text-muted-foreground">
+          Take your Riffian further with live, personalised teaching — one-to-one
+          or in a small group. Bookings via Ko-fi memberships.
+        </p>
+        <div className="grid gap-5 sm:grid-cols-2">
+          {/* Private lessons */}
+          <div className="lt-card-hover flex flex-col rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/[0.06] to-card p-6 shadow-sm">
+            <div className="flex items-center gap-3">
+              <span className="grid h-12 w-12 place-items-center rounded-2xl bg-primary/15 text-primary">
+                <User className="h-6 w-6" />
+              </span>
+              <div>
+                <h4 className="text-base font-bold text-foreground">Private lessons</h4>
+                <p className="text-xs text-muted-foreground">1-on-1 tutoring</p>
+              </div>
+            </div>
+            <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
+              Personalised one-to-one Riffian lessons tailored to your level and
+              goals. Flexible scheduling, direct feedback, faster progress.
+            </p>
+            <Button asChild className="mt-5 gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
+              <a href={SITE_LINKS.kofiTiers} target="_blank" rel="noreferrer noopener">
+                Book private lessons <ArrowRight className="h-4 w-4" />
+              </a>
+            </Button>
+          </div>
+          {/* Group lessons */}
+          <div className="lt-card-hover flex flex-col rounded-2xl border border-emerald-500/30 bg-gradient-to-br from-emerald-500/[0.06] to-card p-6 shadow-sm">
+            <div className="flex items-center gap-3">
+              <span className="grid h-12 w-12 place-items-center rounded-2xl bg-emerald-500/15 text-emerald-600">
+                <Users2 className="h-6 w-6" />
+              </span>
+              <div>
+                <h4 className="text-base font-bold text-foreground">Group lessons</h4>
+                <p className="text-xs text-muted-foreground">Small group classes</p>
+              </div>
+            </div>
+            <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
+              Learn Riffian together with a small group of fellow learners. Weekly
+              live sessions, conversation practice and a supportive community.
+            </p>
+            <Button asChild className="mt-5 gap-2 bg-emerald-600 text-white hover:bg-emerald-700">
+              <a href={SITE_LINKS.kofiTiers} target="_blank" rel="noreferrer noopener">
+                Join group lessons <ArrowRight className="h-4 w-4" />
+              </a>
+            </Button>
+          </div>
+        </div>
+      </div>
 
       {/* Free entry CTA */}
       <div className="mt-12 overflow-hidden rounded-2xl border border-border bg-card">
@@ -167,12 +224,27 @@ function CourseCard({ course, glyph }: { course: Course; glyph: string }) {
           <span className="text-xl font-extrabold text-foreground">
             {course.price === 0 ? 'Free' : `€${course.price}`}
           </span>
-          <Button
-            size="sm"
-            className="gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90"
-          >
-            Enrol <ArrowRight className="h-3.5 w-3.5" />
-          </Button>
+          {course.price === 0 ? (
+            <Button
+              asChild
+              size="sm"
+              className="gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90"
+            >
+              <a href={SITE_LINKS.kofiTiers} target="_blank" rel="noreferrer noopener">
+                Enrol <ArrowRight className="h-3.5 w-3.5" />
+              </a>
+            </Button>
+          ) : (
+            <Button
+              asChild
+              size="sm"
+              className="gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90"
+            >
+              <a href={SITE_LINKS.kofiTiers} target="_blank" rel="noreferrer noopener">
+                Enrol <ArrowRight className="h-3.5 w-3.5" />
+              </a>
+            </Button>
+          )}
         </div>
       </div>
     </div>
