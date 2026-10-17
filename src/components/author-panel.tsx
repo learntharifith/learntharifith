@@ -3,7 +3,7 @@
 import * as React from 'react'
 import {
   X, Lock, FileText, Plus, Pencil, Trash2, Eye, EyeOff,
-  Save, LogOut, Newspaper, Loader2,
+  Save, LogOut, Newspaper, Loader2, Youtube, Video,
 } from 'lucide-react'
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
@@ -33,10 +33,12 @@ export function AuthorPanel({
   open,
   onClose,
   onArticlesChanged,
+  onLessonsChanged,
 }: {
   open: boolean
   onClose: () => void
   onArticlesChanged: () => void
+  onLessonsChanged: () => void
 }) {
   const [token, setToken] = React.useState<string | null>(null)
   const [password, setPassword] = React.useState('')
@@ -149,7 +151,11 @@ export function AuthorPanel({
               onSubmit={handleLogin}
             />
           ) : (
-            <AuthorDashboard token={token} onArticlesChanged={onArticlesChanged} />
+            <AuthorDashboard
+              token={token}
+              onArticlesChanged={onArticlesChanged}
+              onLessonsChanged={onLessonsChanged}
+            />
           )}
         </div>
       </DialogContent>
@@ -239,6 +245,55 @@ function LoginForm({
 function AuthorDashboard({
   token,
   onArticlesChanged,
+  onLessonsChanged,
+}: {
+  token: string
+  onArticlesChanged: () => void
+  onLessonsChanged: () => void
+}) {
+  const [tab, setTab] = React.useState<'articles' | 'videos'>('articles')
+
+  return (
+    <div>
+      {/* Tab switcher */}
+      <div className="flex border-b border-border">
+        <button
+          onClick={() => setTab('articles')}
+          className={cn(
+            'flex flex-1 items-center justify-center gap-2 px-4 py-3 text-sm font-semibold transition-colors',
+            tab === 'articles'
+              ? 'border-b-2 border-primary text-primary'
+              : 'text-muted-foreground hover:text-foreground',
+          )}
+        >
+          <FileText className="h-4 w-4" /> Articles
+        </button>
+        <button
+          onClick={() => setTab('videos')}
+          className={cn(
+            'flex flex-1 items-center justify-center gap-2 px-4 py-3 text-sm font-semibold transition-colors',
+            tab === 'videos'
+              ? 'border-b-2 border-primary text-primary'
+              : 'text-muted-foreground hover:text-foreground',
+          )}
+        >
+          <Youtube className="h-4 w-4" /> Videos
+        </button>
+      </div>
+
+      {tab === 'articles' ? (
+        <ArticlesTab token={token} onArticlesChanged={onArticlesChanged} />
+      ) : (
+        <VideosTab token={token} onLessonsChanged={onLessonsChanged} />
+      )}
+    </div>
+  )
+}
+
+// ─── Articles tab ────────────────────────────────────────────────────
+function ArticlesTab({
+  token,
+  onArticlesChanged,
 }: {
   token: string
   onArticlesChanged: () => void
@@ -251,9 +306,6 @@ function AuthorDashboard({
   const loadArticles = React.useCallback(async () => {
     setLoading(true)
     try {
-      // Fetch ALL articles (including unpublished) — we use the public endpoint
-      // for published, and trust the author sees what's published + their own.
-      // For simplicity, we fetch published; unpublished only show in editor flow.
       const r = await fetch('/api/articles')
       const data = await r.json()
       setArticles(data.articles ?? [])
@@ -699,3 +751,428 @@ function ArticlePreview({
     </div>
   )
 }
+
+// ─── Videos tab ──────────────────────────────────────────────────────
+type Lesson = {
+  id: string
+  title: string
+  slug: string
+  description: string
+  youtubeId: string
+  level: string
+  lessonNumber: number | null
+  thumbnail: string
+  durationMins: number
+  order: number
+  featured: boolean
+}
+
+const LEVELS = [
+  { value: 'intro', label: 'Start here' },
+  { value: 'beginner', label: 'Beginner' },
+  { value: 'intermediate', label: 'Intermediate' },
+  { value: 'culture', label: 'Culture & stories' },
+]
+
+function VideosTab({
+  token,
+  onLessonsChanged,
+}: {
+  token: string
+  onLessonsChanged: () => void
+}) {
+  const [lessons, setLessons] = React.useState<Lesson[]>([])
+  const [loading, setLoading] = React.useState(true)
+  const [editing, setEditing] = React.useState<Lesson | null>(null)
+  const [showEditor, setShowEditor] = React.useState(false)
+
+  const loadLessons = React.useCallback(async () => {
+    setLoading(true)
+    try {
+      const r = await fetch('/api/lessons')
+      const data = await r.json()
+      setLessons(data.lessons ?? [])
+    } catch {
+      /* ignore */
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  React.useEffect(() => {
+    loadLessons()
+  }, [loadLessons])
+
+  const handleDelete = async (id: string, title: string) => {
+    if (!confirm(`Delete "${title}"? This removes it from the Learn section.`)) return
+    try {
+      await fetch(`/api/lessons/${id}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      toast.success('Video deleted')
+      loadLessons()
+      onLessonsChanged()
+    } catch {
+      toast.error('Delete failed')
+    }
+  }
+
+  const handleEditorClose = () => {
+    setShowEditor(false)
+    setEditing(null)
+  }
+  const handleEditorSaved = () => {
+    handleEditorClose()
+    loadLessons()
+    onLessonsChanged()
+  }
+
+  if (showEditor || editing) {
+    return (
+      <VideoEditor
+        token={token}
+        lesson={editing}
+        onClose={handleEditorClose}
+        onSaved={handleEditorSaved}
+      />
+    )
+  }
+
+  return (
+    <div className="p-5">
+      <div className="mb-4 flex items-center justify-between">
+        <h3 className="text-sm font-bold text-foreground">
+          Videos ({lessons.length})
+        </h3>
+        <Button
+          size="sm"
+          className="h-8 gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90"
+          onClick={() => setShowEditor(true)}
+        >
+          <Plus className="h-3.5 w-3.5" /> New video
+        </Button>
+      </div>
+
+      {loading ? (
+        <div className="grid place-items-center py-12">
+          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+        </div>
+      ) : lessons.length === 0 ? (
+        <div className="rounded-xl border border-dashed border-border p-10 text-center">
+          <Video className="mx-auto h-8 w-8 text-muted-foreground" />
+          <p className="mt-3 text-sm font-medium text-foreground">No videos yet</p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Click “New video” to add your first YouTube lesson.
+          </p>
+        </div>
+      ) : (
+        <ul className="space-y-2">
+          {lessons.map((l) => (
+            <li
+              key={l.id}
+              className="flex items-center gap-3 rounded-xl border border-border bg-background p-3"
+            >
+              {/* Thumbnail */}
+              <div className="relative h-12 w-20 shrink-0 overflow-hidden rounded-md bg-muted">
+                <img src={l.thumbnail} alt="" className="h-full w-full object-cover" />
+                <span className="absolute inset-0 grid place-items-center bg-black/30">
+                  <Youtube className="h-4 w-4 text-white" />
+                </span>
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2">
+                  <p className="truncate text-sm font-semibold text-foreground">{l.title}</p>
+                  {l.featured && (
+                    <Badge className="bg-amber-500 text-white hover:bg-amber-600">★</Badge>
+                  )}
+                </div>
+                <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                  {LEVELS.find((lv) => lv.value === l.level)?.label ?? l.level}
+                  {l.lessonNumber ? ` · Lesson ${l.lessonNumber}` : ''}
+                  {l.durationMins ? ` · ${l.durationMins} min` : ''}
+                </p>
+              </div>
+              <div className="flex shrink-0 items-center gap-1">
+                <button
+                  onClick={() => setEditing(l)}
+                  title="Edit"
+                  className="grid h-8 w-8 place-items-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
+                >
+                  <Pencil className="h-4 w-4" />
+                </button>
+                <button
+                  onClick={() => handleDelete(l.id, l.title)}
+                  title="Delete"
+                  className="grid h-8 w-8 place-items-center rounded-lg text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
+// ─── Video editor ────────────────────────────────────────────────────
+function VideoEditor({
+  token,
+  lesson,
+  onClose,
+  onSaved,
+}: {
+  token: string
+  lesson: Lesson | null
+  onClose: () => void
+  onSaved: () => void
+}) {
+  const [title, setTitle] = React.useState(lesson?.title ?? '')
+  const [youtubeUrl, setYoutubeUrl] = React.useState(
+    lesson ? `https://www.youtube.com/watch?v=${lesson.youtubeId}` : '',
+  )
+  const [description, setDescription] = React.useState(lesson?.description ?? '')
+  const [level, setLevel] = React.useState(lesson?.level ?? 'beginner')
+  const [lessonNumber, setLessonNumber] = React.useState(
+    lesson?.lessonNumber ? String(lesson.lessonNumber) : '',
+  )
+  const [durationMins, setDurationMins] = React.useState(
+    lesson?.durationMins ? String(lesson.durationMins) : '',
+  )
+  const [featured, setFeatured] = React.useState(lesson?.featured ?? false)
+  const [saving, setSaving] = React.useState(false)
+  const [urlError, setUrlError] = React.useState<string | null>(null)
+
+  const isEdit = Boolean(lesson)
+
+  // Extract YouTube ID for thumbnail preview
+  const previewId = React.useMemo(() => {
+    const s = youtubeUrl.trim()
+    if (!s) return null
+    let m = s.match(/[?&]v=([A-Za-z0-9_-]{11})/)
+    if (m) return m[1]
+    m = s.match(/youtu\.be\/([A-Za-z0-9_-]{11})/)
+    if (m) return m[1]
+    m = s.match(/\/embed\/([A-Za-z0-9_-]{11})/)
+    if (m) return m[1]
+    m = s.match(/\/shorts\/([A-Za-z0-9_-]{11})/)
+    if (m) return m[1]
+    if (/^[A-Za-z0-9_-]{11}$/.test(s)) return s
+    return null
+  }, [youtubeUrl])
+
+  const handleSave = async () => {
+    setUrlError(null)
+    if (!title.trim()) {
+      toast.error('Title is required')
+      return
+    }
+    if (!youtubeUrl.trim()) {
+      toast.error('YouTube URL is required')
+      return
+    }
+    setSaving(true)
+    try {
+      const payload: Record<string, unknown> = {
+        title: title.trim(),
+        description: description.trim() || 'A Riffian language lesson.',
+        level,
+        lessonNumber: lessonNumber ? Number(lessonNumber) : null,
+        durationMins: durationMins ? Number(durationMins) : 0,
+        featured,
+        youtubeUrl: youtubeUrl.trim(),
+      }
+      const r = await fetch(
+        isEdit ? `/api/lessons/${lesson!.id}` : '/api/lessons',
+        {
+          method: isEdit ? 'PUT' : 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(payload),
+        },
+      )
+      const data = await r.json()
+      if (!r.ok) {
+        if (data.error?.includes('YouTube')) {
+          setUrlError(data.error)
+        }
+        toast.error(data.error || 'Save failed')
+        return
+      }
+      toast.success(isEdit ? 'Video updated 🎉' : 'Video added 🎉')
+      onSaved()
+    } catch {
+      toast.error('Network error — try again')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return (
+    <div className="p-5">
+      <div className="mb-4 flex items-center justify-between">
+        <h3 className="text-sm font-bold text-foreground">
+          {isEdit ? 'Edit video' : 'New video'}
+        </h3>
+        <Button
+          size="sm"
+          className="h-8 gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90"
+          onClick={handleSave}
+          disabled={saving}
+        >
+          {saving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" />}
+          {saving ? 'Saving…' : 'Save'}
+        </Button>
+      </div>
+
+      <div className="space-y-4">
+        {/* YouTube URL + preview */}
+        <div>
+          <Label htmlFor="vid-url" className="text-xs font-semibold">
+            YouTube URL <span className="font-normal text-muted-foreground">(required)</span>
+          </Label>
+          <Input
+            id="vid-url"
+            value={youtubeUrl}
+            onChange={(e) => {
+              setYoutubeUrl(e.target.value)
+              setUrlError(null)
+            }}
+            placeholder="https://www.youtube.com/watch?v=…"
+            className="mt-1.5 h-11"
+            autoFocus={!isEdit}
+          />
+          {urlError && (
+            <p className="mt-1.5 text-xs font-medium text-destructive">{urlError}</p>
+          )}
+          {/* Thumbnail preview */}
+          {previewId && (
+            <div className="mt-2 flex items-center gap-3 rounded-lg border border-border bg-muted/30 p-2">
+              <div className="relative h-14 w-24 shrink-0 overflow-hidden rounded-md bg-black">
+                <img
+                  src={`https://i.ytimg.com/vi/${previewId}/hqdefault.jpg`}
+                  alt="Thumbnail preview"
+                  className="h-full w-full object-cover"
+                />
+                <span className="absolute inset-0 grid place-items-center bg-black/25">
+                  <Youtube className="h-5 w-5 text-white" />
+                </span>
+              </div>
+              <div className="text-xs text-muted-foreground">
+                <p className="font-medium text-foreground">Video detected ✓</p>
+                <p className="mt-0.5">ID: {previewId}</p>
+                <p>Thumbnail auto-generated from YouTube</p>
+              </div>
+            </div>
+          )}
+          <p className="mt-1.5 text-[11px] text-muted-foreground">
+            Paste any YouTube link — watch, youtu.be, embed, or shorts URLs all work.
+          </p>
+        </div>
+
+        {/* Title */}
+        <div>
+          <Label htmlFor="vid-title" className="text-xs font-semibold">
+            Title <span className="font-normal text-muted-foreground">(required)</span>
+          </Label>
+          <Input
+            id="vid-title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="e.g. Lesson 17: The verb 'to go' — present tense"
+            className="mt-1.5 h-11 text-base font-semibold"
+          />
+        </div>
+
+        {/* Description */}
+        <div>
+          <Label htmlFor="vid-desc" className="text-xs font-semibold">
+            Description
+          </Label>
+          <Textarea
+            id="vid-desc"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="What will learners gain from this video?"
+            className="mt-1.5 min-h-[70px] resize-y"
+            rows={3}
+          />
+        </div>
+
+        {/* Level + Lesson number */}
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <Label htmlFor="vid-level" className="text-xs font-semibold">
+              Level
+            </Label>
+            <select
+              id="vid-level"
+              value={level}
+              onChange={(e) => setLevel(e.target.value)}
+              className="mt-1.5 flex h-11 w-full rounded-md border border-input bg-background px-3 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
+            >
+              {LEVELS.map((lv) => (
+                <option key={lv.value} value={lv.value}>
+                  {lv.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <Label htmlFor="vid-num" className="text-xs font-semibold">
+              Lesson number <span className="font-normal text-muted-foreground">(optional)</span>
+            </Label>
+            <Input
+              id="vid-num"
+              type="number"
+              min="1"
+              value={lessonNumber}
+              onChange={(e) => setLessonNumber(e.target.value)}
+              placeholder="e.g. 17"
+              className="mt-1.5 h-11"
+            />
+          </div>
+        </div>
+
+        {/* Duration + Featured */}
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <Label htmlFor="vid-dur" className="text-xs font-semibold">
+              Duration (minutes) <span className="font-normal text-muted-foreground">(optional)</span>
+            </Label>
+            <Input
+              id="vid-dur"
+              type="number"
+              min="0"
+              value={durationMins}
+              onChange={(e) => setDurationMins(e.target.value)}
+              placeholder="e.g. 8"
+              className="mt-1.5 h-11"
+            />
+          </div>
+          <div>
+            <Label className="text-xs font-semibold">Featured</Label>
+            <button
+              type="button"
+              onClick={() => setFeatured((f) => !f)}
+              className={cn(
+                'mt-1.5 flex h-11 w-full items-center justify-center gap-2 rounded-md border px-3 text-sm font-medium transition',
+                featured
+                  ? 'border-amber-500 bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400'
+                  : 'border-border text-muted-foreground hover:bg-muted',
+              )}
+            >
+              <span>{featured ? '★' : '☆'}</span>
+              {featured ? 'Featured (shown on home)' : 'Not featured'}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+

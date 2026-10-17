@@ -18,6 +18,7 @@ export default function Home() {
   const [ready, setReady] = React.useState(false)
   const [authorOpen, setAuthorOpen] = React.useState(false)
   const [articlesNonce, setArticlesNonce] = React.useState(0)
+  const [lessonsNonce, setLessonsNonce] = React.useState(0)
 
   // Boot: generate browser id, fetch lessons + progress
   React.useEffect(() => {
@@ -88,7 +89,11 @@ export default function Home() {
         {!ready ? (
           <BootSkeleton />
         ) : (
-          <TabView tab={activeTab} articlesNonce={articlesNonce} />
+          <TabView
+            tab={activeTab}
+            articlesNonce={articlesNonce}
+            lessonsNonce={lessonsNonce}
+          />
         )}
       </main>
 
@@ -102,17 +107,35 @@ export default function Home() {
         open={authorOpen}
         onClose={() => setAuthorOpen(false)}
         onArticlesChanged={() => setArticlesNonce((n) => n + 1)}
+        onLessonsChanged={() => {
+          setLessonsNonce((n) => n + 1)
+          // Also reload lessons in the store so the Learn section updates
+          fetch('/api/lessons')
+            .then((r) => r.json())
+            .then((d) => {
+              if (Array.isArray(d.lessons)) setLessons(d.lessons)
+            })
+            .catch(() => {})
+        }}
       />
     </div>
   )
 }
 
-function TabView({ tab, articlesNonce }: { tab: string; articlesNonce: number }) {
+function TabView({
+  tab,
+  articlesNonce,
+  lessonsNonce,
+}: {
+  tab: string
+  articlesNonce: number
+  lessonsNonce: number
+}) {
   switch (tab) {
     case 'home':
-      return <HomeContent key={`home-${articlesNonce}`} />
+      return <HomeContent key={`home-${articlesNonce}-${lessonsNonce}`} />
     case 'learn':
-      return <LearnSection />
+      return <LearnSection key={`learn-${lessonsNonce}`} />
     case 'culture':
       return <CultureSection key={`culture-${articlesNonce}`} />
     case 'shop':
@@ -122,7 +145,7 @@ function TabView({ tab, articlesNonce }: { tab: string; articlesNonce: number })
     case 'support':
       return <SupportSection />
     default:
-      return <HomeContent key={`home-${articlesNonce}`} />
+      return <HomeContent key={`home-${articlesNonce}-${lessonsNonce}`} />
   }
 }
 
