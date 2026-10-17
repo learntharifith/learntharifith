@@ -20,7 +20,7 @@ export function LessonCard({ lesson }: { lesson: LessonLite }) {
     <button
       onClick={() => openLessonById(lesson.id)}
       className={cn(
-        'lt-card-hover group relative flex h-full flex-col overflow-hidden rounded-2xl border bg-card text-left shadow-sm',
+        'lt-card-hover-gold group relative flex h-full flex-col overflow-hidden rounded-2xl border bg-card text-left shadow-sm',
         done ? 'border-primary/40' : 'border-border',
       )}
     >

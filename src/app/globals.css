@@ -276,6 +276,27 @@
   box-shadow: 0 14px 30px -16px oklch(0.58 0.16 38 / 0.4);
 }
 
+/* Golden hover contour — for video / lesson cards */
+.lt-card-hover-gold {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.lt-card-hover-gold:hover {
+  transform: translateY(-4px);
+  border-color: oklch(0.82 0.15 85);
+  box-shadow:
+    0 0 0 2px oklch(0.82 0.15 85 / 0.9),
+    0 0 22px -2px oklch(0.82 0.15 85 / 0.55),
+    0 16px 32px -16px oklch(0.82 0.15 85 / 0.45);
+}
+.dark .lt-card-hover-gold:hover {
+  border-color: oklch(0.85 0.16 85);
+  box-shadow:
+    0 0 0 2px oklch(0.85 0.16 85 / 0.9),
+    0 0 26px -2px oklch(0.85 0.16 85 / 0.6),
+    0 16px 32px -16px oklch(0.85 0.16 85 / 0.5);
+}
+
+
 /* Tifinagh watermark text */
 .lt-tifinagh {
   font-family: var(--font-geist-sans);
