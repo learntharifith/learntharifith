@@ -49,8 +49,11 @@ export function AuthorPanel({
     if (saved) setToken(saved)
   }, [open])
 
+  const [lockoutMsg, setLockoutMsg] = React.useState<string | null>(null)
+
   const handleLogin = async () => {
     setLoginLoading(true)
+    setLockoutMsg(null)
     try {
       const r = await fetch('/api/auth', {
         method: 'POST',
@@ -59,12 +62,27 @@ export function AuthorPanel({
       })
       const data = await r.json()
       if (!r.ok) {
-        toast.error(data.error || 'Login failed')
+        if (r.status === 429) {
+          // Locked out
+          const mins = data.retryAfter ? Math.ceil(data.retryAfter / 60) : 15
+          setLockoutMsg(`Too many attempts. Try again in ${mins} minute(s).`)
+          toast.error(`Locked out for ${mins} min`)
+        } else if (typeof data.attemptsLeft === 'number') {
+          setLockoutMsg(
+            data.attemptsLeft > 0
+              ? `Wrong password. ${data.attemptsLeft} attempt(s) left.`
+              : 'Wrong password. Account locked — try again later.',
+          )
+          toast.error(`Wrong password — ${data.attemptsLeft} left`)
+        } else {
+          toast.error(data.error || 'Login failed')
+        }
         return
       }
       localStorage.setItem('lt:authorToken', data.token)
       setToken(data.token)
       setPassword('')
+      setLockoutMsg(null)
       toast.success('Welcome back, author 👋')
     } catch {
       toast.error('Network error — try again')
@@ -127,6 +145,7 @@ export function AuthorPanel({
               password={password}
               setPassword={setPassword}
               loading={loginLoading}
+              lockoutMsg={lockoutMsg}
               onSubmit={handleLogin}
             />
           ) : (
@@ -143,14 +162,17 @@ function LoginForm({
   password,
   setPassword,
   loading,
+  lockoutMsg,
   onSubmit,
 }: {
   password: string
   setPassword: (s: string) => void
   loading: boolean
+  lockoutMsg: string | null
   onSubmit: () => void
 }) {
   const [show, setShow] = React.useState(false)
+  const isLocked = lockoutMsg?.includes('Too many') ?? false
   return (
     <div className="mx-auto max-w-sm p-8">
       <div className="mb-6 text-center">
@@ -183,6 +205,7 @@ function LoginForm({
               className="h-11 pr-10"
               autoFocus
               autoComplete="current-password"
+              disabled={isLocked}
             />
             <button
               type="button"
@@ -194,9 +217,14 @@ function LoginForm({
             </button>
           </div>
         </div>
+        {lockoutMsg && (
+          <div className={`rounded-lg border px-3 py-2 text-xs font-medium ${isLocked ? 'border-destructive/30 bg-destructive/5 text-destructive' : 'border-amber-500/30 bg-amber-500/5 text-amber-700 dark:text-amber-400'}`}>
+            {lockoutMsg}
+          </div>
+        )}
         <Button
           type="submit"
-          disabled={loading || !password}
+          disabled={loading || !password || isLocked}
           className="h-11 w-full gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Lock className="h-4 w-4" />}
