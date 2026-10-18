@@ -50,7 +50,7 @@ export function SiteFooter({ onAuthorClick }: { onAuthorClick?: () => void }) {
           </p>
           {/* Mobile nav — single row scroll */}
           <nav className="mt-4 flex flex-wrap gap-x-4 gap-y-1.5" aria-label="Footer">
-            {(['home', 'learn', 'culture', 'articles', 'shop', 'courses', 'support'] as TabId[]).map((t) => (
+            {(['home', 'learn', 'culture', 'articles', 'practice', 'shop', 'courses', 'support'] as TabId[]).map((t) => (
               <button
                 key={t}
                 onClick={() => go(t)}
@@ -95,6 +95,7 @@ export function SiteFooter({ onAuthorClick }: { onAuthorClick?: () => void }) {
             <FooterLink onClick={() => go('learn')}>Lessons</FooterLink>
             <FooterLink onClick={() => go('culture')}>Culture</FooterLink>
             <FooterLink onClick={() => go('articles')}>Articles</FooterLink>
+            <FooterLink onClick={() => go('practice')}>Practice</FooterLink>
             <FooterLink onClick={() => go('courses')}>Courses</FooterLink>
             <FooterLink onClick={() => go('shop')}>Shop</FooterLink>
           </FooterCol>

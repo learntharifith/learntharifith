@@ -10,6 +10,7 @@ import { HomeContent } from '@/components/sections/home-content'
 import { LearnSection } from '@/components/sections/learn-section'
 import { CultureSection } from '@/components/sections/culture-section'
 import { ArticlesSection } from '@/components/sections/articles-section'
+import { ExercisesSection } from '@/components/sections/exercises-section'
 import { ShopSection } from '@/components/sections/shop-section'
 import { CoursesSection } from '@/components/sections/courses-section'
 import { SupportSection } from '@/components/sections/support-section'
@@ -141,6 +142,8 @@ function TabView({
       return <CultureSection key={`culture-${lessonsNonce}`} />
     case 'articles':
       return <ArticlesSection key={`articles-${articlesNonce}`} />
+    case 'practice':
+      return <ExercisesSection />
     case 'shop':
       return <ShopSection />
     case 'courses':
