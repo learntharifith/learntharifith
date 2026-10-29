@@ -1,111 +1,189 @@
-// Vocabulary extracted from the uploaded Riffian lesson PDFs.
-// Each entry: { riffian, english, tifinagh?, category, lesson }
-// Used by the exercises page for flashcards, multiple choice, and matching games.
+// Vocabulary for the exercises games.
+// Translations provided by the site owner (Riffian speaker).
+// Each entry: { riffian, english, tifinagh?, category }
 
 export type VocabEntry = {
   riffian: string
   english: string
   tifinagh?: string
   category: string
-  lesson: string
 }
 
 export const VOCAB: VocabEntry[] = [
-  // ── Greetings & Basic Phrases (Lesson 4) ──────────────────────────
-  { riffian: 'Azul', english: 'Hello / Peace', tifinagh: 'ⴰⵣⵓⵍ', category: 'Greetings', lesson: 'Lesson 4' },
-  { riffian: 'Azul khak', english: 'Peace be upon you (to a man)', category: 'Greetings', lesson: 'Lesson 4' },
-  { riffian: 'Azul kham', english: 'Peace be upon you (to a woman)', category: 'Greetings', lesson: 'Lesson 4' },
-  { riffian: 'Salam o Âlikom', english: 'Peace be upon you (Islamic)', category: 'Greetings', lesson: 'Lesson 4' },
-  { riffian: 'Thifawin', english: 'Good morning', category: 'Greetings', lesson: 'Lesson 4' },
-  { riffian: 'Sbah lkhir', english: 'Good morning', category: 'Greetings', lesson: 'Lesson 4' },
-  { riffian: 'Thimensiwin', english: 'Good evening', category: 'Greetings', lesson: 'Lesson 4' },
-  { riffian: 'Msa lkhir', english: 'Good evening', category: 'Greetings', lesson: 'Lesson 4' },
-  { riffian: 'Nech qanay', english: 'I am (called)', category: 'Greetings', lesson: 'Lesson 4' },
-  { riffian: 'Isem-ino', english: 'My name is', category: 'Greetings', lesson: 'Lesson 4' },
-  { riffian: 'Nech zi', english: 'I am from', category: 'Greetings', lesson: 'Lesson 4' },
-  { riffian: 'Mokh thedjidh?', english: 'How are you? (to a man)', category: 'Greetings', lesson: 'Lesson 4' },
-  { riffian: 'Mamech thedjidh?', english: 'How are you? (to a woman)', category: 'Greetings', lesson: 'Lesson 4' },
-  { riffian: 'Mlih', english: 'Fine / Good', category: 'Greetings', lesson: 'Lesson 4' },
-  { riffian: 'Kolchi mlih?', english: 'Is everything okay?', category: 'Greetings', lesson: 'Lesson 4' },
-  { riffian: 'Alhamdulilah', english: 'Praise be to God', category: 'Greetings', lesson: 'Lesson 4' },
+  // ── Greetings & Politeness (10) ───────────────────────────────────
+  { riffian: 'Azul', english: 'Hello', tifinagh: 'ⴰⵣⵓⵍ', category: 'Greetings' },
+  { riffian: 'Beslama', english: 'Goodbye', category: 'Greetings' },
+  { riffian: 'Tqadighch', english: 'Thank you', category: 'Greetings' },
+  { riffian: 'Âfak', english: 'Please', category: 'Greetings' },
+  { riffian: 'Wadmay', english: 'Sorry', category: 'Greetings' },
+  { riffian: 'Yeh / Wah', english: 'Yes', category: 'Greetings' },
+  { riffian: 'Lla', english: 'No', category: 'Greetings' },
+  { riffian: 'Mrehba', english: 'Welcome', category: 'Greetings' },
+  { riffian: 'Mokh thedjidh?', english: 'How are you?', category: 'Greetings' },
+  { riffian: 'Aqay mlih', english: "I'm fine", category: 'Greetings' },
 
-  // ── Personal Pronouns (Lesson 2) ──────────────────────────────────
-  { riffian: 'Nech', english: 'I', tifinagh: 'ⵏⴻⵛ', category: 'Pronouns', lesson: 'Lesson 2' },
-  { riffian: 'Chek', english: 'You (masc.)', tifinagh: 'ⵛⴻⴽ', category: 'Pronouns', lesson: 'Lesson 2' },
-  { riffian: 'Chem', english: 'You (fem.)', tifinagh: 'ⵛⴻⵎ', category: 'Pronouns', lesson: 'Lesson 2' },
-  { riffian: 'Netta', english: 'He', tifinagh: 'ⵏⴻⵜⵜⴰ', category: 'Pronouns', lesson: 'Lesson 2' },
-  { riffian: 'Nettath', english: 'She', tifinagh: 'ⵏⴻⵜⵜⴰⵜ', category: 'Pronouns', lesson: 'Lesson 2' },
-  { riffian: 'Nechnin', english: 'We', tifinagh: 'ⵏⴻⵛⵏⵉⵏ', category: 'Pronouns', lesson: 'Lesson 2' },
-  { riffian: 'Kenniw', english: 'You (masc. pl.)', tifinagh: 'ⴽⴻⵏⵏⵉⵡ', category: 'Pronouns', lesson: 'Lesson 2' },
-  { riffian: 'Kennint', english: 'You (fem. pl.)', tifinagh: 'ⴽⴻⵏⵏⵉⵏⵜ', category: 'Pronouns', lesson: 'Lesson 2' },
-  { riffian: 'Nethnin', english: 'They (masc.)', tifinagh: 'ⵏⴻⵜⵏⵉⵏ', category: 'Pronouns', lesson: 'Lesson 2' },
+  // ── Family (12) ───────────────────────────────────────────────────
+  { riffian: 'Baba', english: 'Father', category: 'Family' },
+  { riffian: 'Yemma', english: 'Mother', category: 'Family' },
+  { riffian: 'Uma', english: 'Brother', category: 'Family' },
+  { riffian: 'Utchma', english: 'Sister', category: 'Family' },
+  { riffian: 'Mmi', english: 'Son', category: 'Family' },
+  { riffian: 'Yedji', english: 'Daughter', category: 'Family' },
+  { riffian: 'Jeddi', english: 'Grandfather', category: 'Family' },
+  { riffian: 'Jida', english: 'Grandmother', category: 'Family' },
+  { riffian: 'Âazizi', english: 'Uncle (father side)', category: 'Family' },
+  { riffian: 'Âanti', english: 'Aunt (father side)', category: 'Family' },
+  { riffian: 'Khari', english: 'Uncle (mother side)', category: 'Family' },
+  { riffian: 'Khatchi', english: 'Aunt (mother side)', category: 'Family' },
 
-  // ── Colors & Descriptions (Lesson 6) ──────────────────────────────
-  { riffian: 'Azuggagh', english: 'Red', category: 'Colors', lesson: 'Lesson 6' },
-  { riffian: 'Azegzaw', english: 'Blue / Green', category: 'Colors', lesson: 'Lesson 6' },
-  { riffian: 'Awraɣ', english: 'Yellow / Gold', category: 'Colors', lesson: 'Lesson 6' },
-  { riffian: 'Aberkan', english: 'Black', category: 'Colors', lesson: 'Lesson 6' },
-  { riffian: 'Amellal', english: 'White', category: 'Colors', lesson: 'Lesson 6' },
-  { riffian: 'Aččini', english: 'Orange', category: 'Colors', lesson: 'Lesson 6' },
-  { riffian: 'Aqahwi', english: 'Brown / Coffee-colored', category: 'Colors', lesson: 'Lesson 6' },
-  { riffian: 'Amarviî', english: 'Green', category: 'Colors', lesson: 'Lesson 6' },
+  // ── Body Parts (10) ───────────────────────────────────────────────
+  { riffian: 'Azedjif', english: 'Head', category: 'Body Parts' },
+  { riffian: 'Fous', english: 'Hand', category: 'Body Parts' },
+  { riffian: 'Thitt', english: 'Eye', category: 'Body Parts' },
+  { riffian: 'Ur', english: 'Heart', category: 'Body Parts' },
+  { riffian: 'Dhar', english: 'Foot', category: 'Body Parts' },
+  { riffian: 'Aqemmum', english: 'Mouth', category: 'Body Parts' },
+  { riffian: 'Amezzugh', english: 'Ear', category: 'Body Parts' },
+  { riffian: 'Thinzar', english: 'Nose', category: 'Body Parts' },
+  { riffian: 'Achwaf', english: 'Hair', category: 'Body Parts' },
+  { riffian: 'Aghembub', english: 'Face', category: 'Body Parts' },
 
-  // ── Days, Months & Seasons (Lesson 7) ─────────────────────────────
-  { riffian: 'Acer', english: 'Sunday (the first)', category: 'Days', lesson: 'Lesson 7' },
-  { riffian: 'Rethnayen', english: 'Monday (the second)', category: 'Days', lesson: 'Lesson 7' },
-  { riffian: 'Tratha', english: 'Tuesday (the third)', category: 'Days', lesson: 'Lesson 7' },
-  { riffian: 'Rarbaɛ', english: 'Wednesday (the fourth)', category: 'Days', lesson: 'Lesson 7' },
-  { riffian: 'Rekhmis', english: 'Thursday (the fifth)', category: 'Days', lesson: 'Lesson 7' },
-  { riffian: 'Jemɛa', english: 'Friday (gathering day)', category: 'Days', lesson: 'Lesson 7' },
-  { riffian: 'Ssebth', english: 'Saturday (rest day)', category: 'Days', lesson: 'Lesson 7' },
+  // ── Food & Drink (10) ─────────────────────────────────────────────
+  { riffian: 'Aghrum', english: 'Bread', tifinagh: 'ⴰⵖⵔⵓⵎ', category: 'Food & Drink' },
+  { riffian: 'Aman', english: 'Water', tifinagh: 'ⴰⵎⴰⵏ', category: 'Food & Drink' },
+  { riffian: 'Atay', english: 'Tea', category: 'Food & Drink' },
+  { riffian: 'Acheffay', english: 'Milk', category: 'Food & Drink' },
+  { riffian: 'Rqahwa', english: 'Coffee', category: 'Food & Drink' },
+  { riffian: 'Aksoum', english: 'Meat', category: 'Food & Drink' },
+  { riffian: 'Asrem / Iserman', english: 'Fish', category: 'Food & Drink' },
+  { riffian: 'Thamdjatch', english: 'Egg', category: 'Food & Drink' },
+  { riffian: 'Remreh', english: 'Salt', category: 'Food & Drink' },
+  { riffian: 'Sukar', english: 'Sugar', category: 'Food & Drink' },
 
-  // ── Food & Drinks (Lesson 9) ──────────────────────────────────────
-  { riffian: 'Aghrum', english: 'Bread', category: 'Food', lesson: 'Lesson 9' },
-  { riffian: 'Aman', english: 'Water', category: 'Food', lesson: 'Lesson 9' },
-  { riffian: 'Atay', english: 'Tea', category: 'Food', lesson: 'Lesson 9' },
-  { riffian: 'Afullus', english: 'Chicken', category: 'Food', lesson: 'Lesson 9' },
-  { riffian: 'Tisent', english: 'Salt', category: 'Food', lesson: 'Lesson 9' },
-  { riffian: 'Azemni', english: 'Oil', category: 'Food', lesson: 'Lesson 9' },
-  { riffian: 'Tiɛqayin', english: 'Eggs', category: 'Food', lesson: 'Lesson 9' },
-  { riffian: 'Aglim', english: 'Leather / Skin', category: 'Food', lesson: 'Lesson 9' },
-  { riffian: 'Sedaf', english: 'Apples', category: 'Food', lesson: 'Lesson 9' },
-  { riffian: 'Amizidh', english: 'Buttermilk', category: 'Food', lesson: 'Lesson 9' },
+  // ── Colors (8) ────────────────────────────────────────────────────
+  { riffian: 'Azugagh', english: 'Red', tifinagh: 'ⴰⵣⵓⴳⴳⴰⵖ', category: 'Colors' },
+  { riffian: 'Azegza', english: 'Blue', tifinagh: 'ⴰⵣⴻⴳⵣⴰ', category: 'Colors' },
+  { riffian: 'Am-arbiê', english: 'Green', category: 'Colors' },
+  { riffian: 'Awragh', english: 'Yellow', category: 'Colors' },
+  { riffian: 'Abarkan', english: 'Black', tifinagh: 'ⴰⴱⴰⵔⴽⴰⵏ', category: 'Colors' },
+  { riffian: 'Achemrar', english: 'White', category: 'Colors' },
+  { riffian: 'Tchini', english: 'Orange', category: 'Colors' },
+  { riffian: 'Tchocolate', english: 'Brown', category: 'Colors' },
 
-  // ── Common Verbs (Lesson 12) ──────────────────────────────────────
-  { riffian: 'Ech', english: 'To eat', category: 'Verbs', lesson: 'Lesson 12' },
-  { riffian: 'Swu', english: 'To drink', category: 'Verbs', lesson: 'Lesson 12' },
-  { riffian: 'Ruḥ', english: 'To go', category: 'Verbs', lesson: 'Lesson 12' },
-  { riffian: 'Ased', english: 'To come', category: 'Verbs', lesson: 'Lesson 12' },
-  { riffian: 'Ttes', english: 'To sleep', category: 'Verbs', lesson: 'Lesson 12' },
-  { riffian: 'Khdhem', english: 'To work', category: 'Verbs', lesson: 'Lesson 12' },
-  { riffian: 'Ghar', english: 'To read', category: 'Verbs', lesson: 'Lesson 12' },
-  { riffian: 'Ari', english: 'To write', category: 'Verbs', lesson: 'Lesson 12' },
-  { riffian: 'Siwer', english: 'To speak', category: 'Verbs', lesson: 'Lesson 12' },
-  { riffian: 'Ẓer', english: 'To see', category: 'Verbs', lesson: 'Lesson 12' },
-  { riffian: 'Ffegh', english: 'To go out / exit', category: 'Verbs', lesson: 'Lesson 12' },
+  // ── Numbers (10) ──────────────────────────────────────────────────
+  { riffian: 'Ijj', english: 'One', category: 'Numbers' },
+  { riffian: 'Thnayn', english: 'Two', category: 'Numbers' },
+  { riffian: 'Thratha', english: 'Three', category: 'Numbers' },
+  { riffian: 'Abâa', english: 'Four', category: 'Numbers' },
+  { riffian: 'Khemsa', english: 'Five', category: 'Numbers' },
+  { riffian: 'Setta', english: 'Six', category: 'Numbers' },
+  { riffian: 'Sebâa', english: 'Seven', category: 'Numbers' },
+  { riffian: 'Thmenya', english: 'Eight', category: 'Numbers' },
+  { riffian: 'Tesâa', english: 'Nine', category: 'Numbers' },
+  { riffian: 'Âachra', english: 'Ten', category: 'Numbers' },
 
-  // ── Possessives (Lesson 10) ───────────────────────────────────────
-  { riffian: '-inu', english: 'My', category: 'Possessives', lesson: 'Lesson 10' },
-  { riffian: '-inek', english: 'Your (masc.)', category: 'Possessives', lesson: 'Lesson 10' },
-  { riffian: '-inem', english: 'Your (fem.)', category: 'Possessives', lesson: 'Lesson 10' },
-  { riffian: '-ines', english: 'His / Her', category: 'Possessives', lesson: 'Lesson 10' },
-  { riffian: '-nnegh', english: 'Our', category: 'Possessives', lesson: 'Lesson 10' },
-  { riffian: '-nkum', english: 'Your (masc. pl.)', category: 'Possessives', lesson: 'Lesson 10' },
-  { riffian: '-nsen', english: 'Their', category: 'Possessives', lesson: 'Lesson 10' },
+  // ── Days & Time (10) ──────────────────────────────────────────────
+  { riffian: 'Rhedd', english: 'Sunday', category: 'Days & Time' },
+  { riffian: 'Rethnayen', english: 'Monday', category: 'Days & Time' },
+  { riffian: 'Ttratha', english: 'Tuesday', category: 'Days & Time' },
+  { riffian: 'Rabaâ', english: 'Wednesday', category: 'Days & Time' },
+  { riffian: 'Rekhmis', english: 'Thursday', category: 'Days & Time' },
+  { riffian: 'Jemâa', english: 'Friday', category: 'Days & Time' },
+  { riffian: 'Sebth', english: 'Saturday', category: 'Days & Time' },
+  { riffian: 'Assa / Nhara', english: 'Today', category: 'Days & Time' },
+  { riffian: 'Thiwcha', english: 'Tomorrow', category: 'Days & Time' },
+  { riffian: 'Idhennat', english: 'Yesterday', category: 'Days & Time' },
 
-  // ── Questions & Interrogatives (Lesson 11) ────────────────────────
-  { riffian: 'Ma', english: 'Is it? (yes/no question)', category: 'Questions', lesson: 'Lesson 11' },
-  { riffian: 'Min', english: 'Who / What', category: 'Questions', lesson: 'Lesson 11' },
-  { riffian: 'Mokh', english: 'How', category: 'Questions', lesson: 'Lesson 11' },
-  { riffian: 'Mamech', english: 'How (feminine)', category: 'Questions', lesson: 'Lesson 11' },
-  { riffian: 'Ansi', english: 'Where', category: 'Questions', lesson: 'Lesson 11' },
-  { riffian: 'Mikhs', english: 'When', category: 'Questions', lesson: 'Lesson 11' },
-  { riffian: 'Mamk', english: 'Why', category: 'Questions', lesson: 'Lesson 11' },
-  { riffian: 'Achku', english: 'Why / Because', category: 'Questions', lesson: 'Lesson 11' },
+  // ── Verbs (10) ────────────────────────────────────────────────────
+  { riffian: 'Ech', english: 'To eat', category: 'Verbs' },
+  { riffian: 'Su', english: 'To drink', category: 'Verbs' },
+  { riffian: 'Rah', english: 'To go', category: 'Verbs' },
+  { riffian: 'Ased', english: 'To come', category: 'Verbs' },
+  { riffian: 'Ttes', english: 'To sleep', category: 'Verbs' },
+  { riffian: 'Khdhem', english: 'To work', category: 'Verbs' },
+  { riffian: 'Ghar', english: 'To read', category: 'Verbs' },
+  { riffian: 'Ari', english: 'To write', category: 'Verbs' },
+  { riffian: 'Siwer', english: 'To speak', category: 'Verbs' },
+  { riffian: 'Nadhur', english: 'To see', category: 'Verbs' },
+
+  // ── Nature (10) ───────────────────────────────────────────────────
+  { riffian: 'Thfuyth', english: 'Sun', category: 'Nature' },
+  { riffian: 'Thaziri', english: 'Moon', category: 'Nature' },
+  { riffian: 'Ithri', english: 'Star', category: 'Nature' },
+  { riffian: 'Adhrar', english: 'Mountain', category: 'Nature' },
+  { riffian: 'Aghzar', english: 'River', category: 'Nature' },
+  { riffian: 'Thachjarth', english: 'Tree', category: 'Nature' },
+  { riffian: 'Thanwachth', english: 'Flower', category: 'Nature' },
+  { riffian: 'Ajenna', english: 'Sky', category: 'Nature' },
+  { riffian: 'Anzar', english: 'Rain', category: 'Nature' },
+  { riffian: 'Râafith', english: 'Fire', category: 'Nature' },
+
+  // ── Common Words (8) ──────────────────────────────────────────────
+  { riffian: 'Thadarth', english: 'House', category: 'Common Words' },
+  { riffian: 'Amduker', english: 'Friend', category: 'Common Words' },
+  { riffian: 'Adllis', english: 'Book', category: 'Common Words' },
+  { riffian: 'Thamzidha', english: 'School', category: 'Common Words' },
+  { riffian: 'Tmenyath', english: 'Money', category: 'Common Words' },
+  { riffian: 'Tonobin', english: 'Car', category: 'Common Words' },
+  { riffian: 'Aqzin', english: 'Dog', category: 'Common Words' },
+  { riffian: 'Amchich / Moch', english: 'Cat', category: 'Common Words' },
+
+  // ── Household & Objects (16) ──────────────────────────────────────
+  { riffian: 'Thbajot / Rkazi', english: 'Window', category: 'Household & Objects' },
+  { riffian: 'Kuzina', english: 'Kitchen', category: 'Household & Objects' },
+  { riffian: 'Thsummet', english: 'Pillow', category: 'Household & Objects' },
+  { riffian: 'Asdhir', english: 'Bucket', category: 'Household & Objects' },
+  { riffian: 'Thisith', english: 'Mirror', category: 'Household & Objects' },
+  { riffian: 'Thimekradh', english: 'Scissors', category: 'Household & Objects' },
+  { riffian: 'Thaghenjaith', english: 'Spoon', category: 'Household & Objects' },
+  { riffian: 'Malta', english: 'Blanket', category: 'Household & Objects' },
+  { riffian: 'Asghon', english: 'Rope', category: 'Household & Objects' },
+  { riffian: 'Thisegnefth', english: 'Needle', category: 'Household & Objects' },
+  { riffian: 'Malita', english: 'Suitcase', category: 'Household & Objects' },
+  { riffian: 'Thisenserth', english: 'Necklace', category: 'Household & Objects' },
+  { riffian: 'Rmeftah', english: 'Key', category: 'Household & Objects' },
+  { riffian: 'Thafdizth', english: 'Hammer', category: 'Household & Objects' },
+  { riffian: 'Amesmir', english: 'Nail', category: 'Household & Objects' },
+  { riffian: 'Agharraf', english: 'Mug', category: 'Household & Objects' },
+
+  // ── Animals & Nature (10) ─────────────────────────────────────────
+  { riffian: 'Ajjaj', english: 'Thunder', category: 'Animals & Nature' },
+  { riffian: 'Thizzgi', english: 'Forest', category: 'Animals & Nature' },
+  { riffian: 'Rmujeth', english: 'Wave', category: 'Animals & Nature' },
+  { riffian: 'Abitoss', english: 'Mud', category: 'Animals & Nature' },
+  { riffian: 'Thzizwit', english: 'Bee', category: 'Animals & Nature' },
+  { riffian: 'Akettof', english: 'Ant', category: 'Animals & Nature' },
+  { riffian: 'Figha', english: 'Snake', category: 'Animals & Nature' },
+  { riffian: 'Ighidh', english: 'Goat', category: 'Animals & Nature' },
+  { riffian: 'Aghyur', english: 'Donkey', category: 'Animals & Nature' },
+  { riffian: 'Yazidh', english: 'Rooster', category: 'Animals & Nature' },
+
+  // ── Food & Cooking (5) ────────────────────────────────────────────
+  { riffian: 'Djuz', english: 'Almond', category: 'Food & Cooking' },
+  { riffian: 'Thabsetch', english: 'Onion', category: 'Food & Cooking' },
+  { riffian: 'Thicharth', english: 'Garlic', category: 'Food & Cooking' },
+  { riffian: 'Thamment', english: 'Honey', category: 'Food & Cooking' },
+  { riffian: 'Arithi', english: 'Dough', category: 'Food & Cooking' },
+
+  // ── Adjectives (4) ────────────────────────────────────────────────
+  { riffian: 'Marzag', english: 'Bitter', category: 'Adjectives' },
+  { riffian: 'Idhqer', english: 'Heavy', category: 'Adjectives' },
+  { riffian: 'Asemmam', english: 'Sour', category: 'Adjectives' },
+  { riffian: 'Aqecha', english: 'Bald', category: 'Adjectives' },
+
+  // ── People (4) ────────────────────────────────────────────────────
+  { riffian: 'Ajjar', english: 'Neighbor', category: 'People' },
+  { riffian: 'Ikniwen (m) / Thikniwin (f)', english: 'Twin', category: 'People' },
+  { riffian: 'Anebji / Thanebjiwth', english: 'Guest', category: 'People' },
+  { riffian: 'Ameksaw', english: 'Shepherd', category: 'People' },
+
+  // ── More Verbs (2) ────────────────────────────────────────────────
+  { riffian: 'Zzogha', english: 'To drag', category: 'Verbs' },
+  { riffian: 'Dhfes', english: 'To fold', category: 'Verbs' },
+
+  // ── Abstract (1) ──────────────────────────────────────────────────
+  { riffian: 'Thirja', english: 'Dream', category: 'Abstract' },
 ]
 
 // Categories for the filter
 export const CATEGORIES = Array.from(new Set(VOCAB.map((v) => v.category))).sort()
-
-// Lessons for the filter
-export const LESSONS = Array.from(new Set(VOCAB.map((v) => v.lesson))).sort()
