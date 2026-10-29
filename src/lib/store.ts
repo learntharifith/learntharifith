@@ -2,7 +2,7 @@
 
 import { create } from 'zustand'
 
-export type TabId = 'home' | 'learn' | 'culture' | 'articles' | 'practice' | 'shop' | 'courses' | 'support'
+export type TabId = 'home' | 'learn' | 'culture' | 'articles' | 'practice' | 'dashboard' | 'shop' | 'courses' | 'support'
 export type LevelFilter = 'all' | 'intro' | 'beginner' | 'intermediate' | 'culture'
 
 export type LessonLite = {

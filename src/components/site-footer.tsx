@@ -1,12 +1,12 @@
 'use client'
 
-import { Heart, Mail, Youtube, Coffee, PenLine, MessageCircle } from 'lucide-react'
+import { Heart, Mail, Youtube, Coffee, PenLine, MessageCircle, ShieldCheck } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useApp, type TabId } from '@/lib/store'
 import { AmazighBand, TifinaghStrip } from '@/components/amazigh-pattern'
 import { SITE_LINKS } from '@/lib/links'
 
-export function SiteFooter({ onAuthorClick }: { onAuthorClick?: () => void }) {
+export function SiteFooter({ onAuthorClick, onAdminClick }: { onAuthorClick?: () => void; onAdminClick?: () => void }) {
   const { setActiveTab } = useApp()
   const go = (t: TabId) => {
     setActiveTab(t)
@@ -50,7 +50,7 @@ export function SiteFooter({ onAuthorClick }: { onAuthorClick?: () => void }) {
           </p>
           {/* Mobile nav — single row scroll */}
           <nav className="mt-4 flex flex-wrap gap-x-4 gap-y-1.5" aria-label="Footer">
-            {(['home', 'learn', 'culture', 'articles', 'practice', 'shop', 'courses', 'support'] as TabId[]).map((t) => (
+            {(['home', 'learn', 'culture', 'articles', 'practice', 'dashboard', 'shop', 'courses', 'support'] as TabId[]).map((t) => (
               <button
                 key={t}
                 onClick={() => go(t)}
@@ -147,6 +147,15 @@ export function SiteFooter({ onAuthorClick }: { onAuthorClick?: () => void }) {
           </p>
           <div className="flex items-center gap-4">
             <p className="lt-tifinagh">ⵜⴰⵣⵡⴽⵉ ⵏ ⵜⵎⴰⵣⵉⵖⵜ</p>
+            {onAdminClick && (
+              <button
+                onClick={onAdminClick}
+                title="Admin dashboard"
+                className="inline-flex items-center gap-1 text-muted-foreground/40 transition-colors hover:text-primary"
+              >
+                <ShieldCheck className="h-3.5 w-3.5" />
+              </button>
+            )}
             {onAuthorClick && (
               <button
                 onClick={onAuthorClick}

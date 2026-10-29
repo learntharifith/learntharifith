@@ -21,6 +21,19 @@ function hashPassword(password: string): string {
 export function verifyPassword(submitted: string): boolean {
   const expected = process.env.AUTHOR_PASSWORD
   if (!expected) return false
+  return verifyAgainstPassword(submitted, expected)
+}
+
+/**
+ * Verify a submitted password against the env-configured admin password.
+ */
+export function verifyAdminPasswordEnv(submitted: string): boolean {
+  const expected = process.env.ADMIN_PASSWORD
+  if (!expected) return false
+  return verifyAgainstPassword(submitted, expected)
+}
+
+function verifyAgainstPassword(submitted: string, expected: string): boolean {
   const submittedHash = hashPassword(submitted)
   const expectedHash = hashPassword(expected)
   // constant-time compare

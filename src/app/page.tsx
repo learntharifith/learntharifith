@@ -11,14 +11,17 @@ import { LearnSection } from '@/components/sections/learn-section'
 import { CultureSection } from '@/components/sections/culture-section'
 import { ArticlesSection } from '@/components/sections/articles-section'
 import { ExercisesSection } from '@/components/sections/exercises-section'
+import { UserDashboardSection } from '@/components/sections/user-dashboard'
 import { ShopSection } from '@/components/sections/shop-section'
 import { CoursesSection } from '@/components/sections/courses-section'
 import { SupportSection } from '@/components/sections/support-section'
+import { AdminPanel } from '@/components/admin-panel'
 
 export default function Home() {
   const { activeTab, setLessons, setCompleted, setBrowserId } = useApp()
   const [ready, setReady] = React.useState(false)
   const [authorOpen, setAuthorOpen] = React.useState(false)
+  const [adminOpen, setAdminOpen] = React.useState(false)
   const [articlesNonce, setArticlesNonce] = React.useState(0)
   const [lessonsNonce, setLessonsNonce] = React.useState(0)
 
@@ -99,7 +102,10 @@ export default function Home() {
         )}
       </main>
 
-      <SiteFooter onAuthorClick={() => setAuthorOpen(true)} />
+      <SiteFooter
+        onAuthorClick={() => setAuthorOpen(true)}
+        onAdminClick={() => setAdminOpen(true)}
+      />
 
       {/* Global lesson modal */}
       <LessonModal />
@@ -120,6 +126,9 @@ export default function Home() {
             .catch(() => {})
         }}
       />
+
+      {/* Admin dashboard panel */}
+      <AdminPanel open={adminOpen} onClose={() => setAdminOpen(false)} />
     </div>
   )
 }
@@ -144,6 +153,8 @@ function TabView({
       return <ArticlesSection key={`articles-${articlesNonce}`} />
     case 'practice':
       return <ExercisesSection />
+    case 'dashboard':
+      return <UserDashboardSection />
     case 'shop':
       return <ShopSection />
     case 'courses':
