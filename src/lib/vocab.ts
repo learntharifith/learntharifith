@@ -35,8 +35,9 @@ export const VOCAB: VocabEntry[] = [
   { riffian: 'Âanti', english: 'Aunt (father side)', category: 'Family' },
   { riffian: 'Khari', english: 'Uncle (mother side)', category: 'Family' },
   { riffian: 'Khatchi', english: 'Aunt (mother side)', category: 'Family' },
+  { riffian: 'Arbib', english: 'Step-son', category: 'Family' },
 
-  // ── Body Parts (10) ───────────────────────────────────────────────
+  // ── Body Parts ───────────────────────────────────────────────
   { riffian: 'Azedjif', english: 'Head', category: 'Body Parts' },
   { riffian: 'Fous', english: 'Hand', category: 'Body Parts' },
   { riffian: 'Thitt', english: 'Eye', category: 'Body Parts' },
@@ -47,8 +48,14 @@ export const VOCAB: VocabEntry[] = [
   { riffian: 'Thinzar', english: 'Nose', category: 'Body Parts' },
   { riffian: 'Achwaf', english: 'Hair', category: 'Body Parts' },
   { riffian: 'Aghembub', english: 'Face', category: 'Body Parts' },
+  { riffian: 'Aqensur / Akemmar', english: 'Face (2nd word)', category: 'Body Parts' },
+  { riffian: 'Ammiw', english: 'Eyebrow', category: 'Body Parts' },
+  { riffian: 'Ametta', english: 'Tear (drop)', category: 'Body Parts' },
+  { riffian: 'Imettawen', english: 'Tears', category: 'Body Parts' },
+  { riffian: 'Amekhbach', english: 'Claw', category: 'Body Parts' },
+  { riffian: 'Agenchich', english: 'Lip', category: 'Body Parts' },
 
-  // ── Food & Drink (10) ─────────────────────────────────────────────
+  // ── Food & Drink ─────────────────────────────────────────────
   { riffian: 'Aghrum', english: 'Bread', tifinagh: 'ⴰⵖⵔⵓⵎ', category: 'Food & Drink' },
   { riffian: 'Aman', english: 'Water', tifinagh: 'ⴰⵎⴰⵏ', category: 'Food & Drink' },
   { riffian: 'Atay', english: 'Tea', category: 'Food & Drink' },
@@ -59,6 +66,7 @@ export const VOCAB: VocabEntry[] = [
   { riffian: 'Thamdjatch', english: 'Egg', category: 'Food & Drink' },
   { riffian: 'Remreh', english: 'Salt', category: 'Food & Drink' },
   { riffian: 'Sukar', english: 'Sugar', category: 'Food & Drink' },
+  { riffian: 'Amensi', english: 'Dinner', category: 'Food & Drink' },
 
   // ── Colors (8) ────────────────────────────────────────────────────
   { riffian: 'Azugagh', english: 'Red', tifinagh: 'ⴰⵣⵓⴳⴳⴰⵖ', category: 'Colors' },
@@ -117,16 +125,18 @@ export const VOCAB: VocabEntry[] = [
   { riffian: 'Ajenna', english: 'Sky', category: 'Nature' },
   { riffian: 'Anzar', english: 'Rain', category: 'Nature' },
   { riffian: 'Râafith', english: 'Fire', category: 'Nature' },
+  { riffian: 'Anebdu', english: 'Summer', category: 'Nature' },
 
   // ── Common Words (8) ──────────────────────────────────────────────
   { riffian: 'Thadarth', english: 'House', category: 'Common Words' },
-  { riffian: 'Amduker', english: 'Friend', category: 'Common Words' },
+  { riffian: 'Amedduker', english: 'Friend', category: 'Common Words' },
   { riffian: 'Adllis', english: 'Book', category: 'Common Words' },
   { riffian: 'Thamzidha', english: 'School', category: 'Common Words' },
   { riffian: 'Tmenyath', english: 'Money', category: 'Common Words' },
   { riffian: 'Tonobin', english: 'Car', category: 'Common Words' },
   { riffian: 'Aqzin', english: 'Dog', category: 'Common Words' },
   { riffian: 'Amchich / Moch', english: 'Cat', category: 'Common Words' },
+  { riffian: 'Raqq', english: 'Place', category: 'Common Words' },
 
   // ── Household & Objects (16) ──────────────────────────────────────
   { riffian: 'Thbajot / Rkazi', english: 'Window', category: 'Household & Objects' },
@@ -145,6 +155,9 @@ export const VOCAB: VocabEntry[] = [
   { riffian: 'Thafdizth', english: 'Hammer', category: 'Household & Objects' },
   { riffian: 'Amesmir', english: 'Nail', category: 'Household & Objects' },
   { riffian: 'Agharraf', english: 'Mug', category: 'Household & Objects' },
+  { riffian: 'Anfif', english: 'Funnel', category: 'Household & Objects' },
+  { riffian: 'Aqbuch', english: 'Jar', category: 'Household & Objects' },
+  { riffian: 'Aqchur', english: 'Peel', category: 'Household & Objects' },
 
   // ── Animals & Nature (10) ─────────────────────────────────────────
   { riffian: 'Ajjaj', english: 'Thunder', category: 'Animals & Nature' },
@@ -157,6 +170,9 @@ export const VOCAB: VocabEntry[] = [
   { riffian: 'Ighidh', english: 'Goat', category: 'Animals & Nature' },
   { riffian: 'Aghyur', english: 'Donkey', category: 'Animals & Nature' },
   { riffian: 'Yazidh', english: 'Rooster', category: 'Animals & Nature' },
+  { riffian: 'Aqarqriw', english: 'Frog', category: 'Animals & Nature' },
+  { riffian: 'Aqenni', english: 'Rabbit', category: 'Animals & Nature' },
+  { riffian: 'Amziw', english: 'Monster', category: 'Animals & Nature' },
 
   // ── Food & Cooking (5) ────────────────────────────────────────────
   { riffian: 'Djuz', english: 'Almond', category: 'Food & Cooking' },
@@ -164,25 +180,46 @@ export const VOCAB: VocabEntry[] = [
   { riffian: 'Thicharth', english: 'Garlic', category: 'Food & Cooking' },
   { riffian: 'Thamment', english: 'Honey', category: 'Food & Cooking' },
   { riffian: 'Arithi', english: 'Dough', category: 'Food & Cooking' },
+  { riffian: 'Amthun', english: 'Yeast', category: 'Food & Cooking' },
+  { riffian: 'Aren', english: 'Flour', category: 'Food & Cooking' },
 
   // ── Adjectives (4) ────────────────────────────────────────────────
   { riffian: 'Marzag', english: 'Bitter', category: 'Adjectives' },
   { riffian: 'Idhqer', english: 'Heavy', category: 'Adjectives' },
   { riffian: 'Asemmam', english: 'Sour', category: 'Adjectives' },
-  { riffian: 'Aqecha', english: 'Bald', category: 'Adjectives' },
+  { riffian: 'Aqechar', english: 'Bald', category: 'Adjectives' },
+  { riffian: 'Amessas', english: 'Bland', category: 'Adjectives' },
+  { riffian: 'Amiriw', english: 'Wide', category: 'Adjectives' },
+  { riffian: 'Aqemqam', english: 'Huge', category: 'Adjectives' },
+  { riffian: 'Aqezzaz', english: 'Stingy', category: 'Adjectives' },
+  { riffian: 'Aqubbani', english: 'Ignorant', category: 'Adjectives' },
+  { riffian: 'Amezgaru', english: 'First', category: 'Adjectives' },
+  { riffian: 'Amerwassi', english: 'Median', category: 'Adjectives' },
 
   // ── People (4) ────────────────────────────────────────────────────
   { riffian: 'Ajjar', english: 'Neighbor', category: 'People' },
   { riffian: 'Ikniwen (m) / Thikniwin (f)', english: 'Twin', category: 'People' },
   { riffian: 'Anebji / Thanebjiwth', english: 'Guest', category: 'People' },
   { riffian: 'Ameksaw', english: 'Shepherd', category: 'People' },
+  { riffian: 'Amedyaz', english: 'Poet', category: 'People' },
+  { riffian: 'Ameghnuj', english: 'Singer', category: 'People' },
+  { riffian: 'Amehdhar', english: 'Student', category: 'People' },
+  { riffian: 'Amghar', english: 'Chief', category: 'People' },
+  { riffian: 'Anejjar', english: 'Carpenter', category: 'People' },
+  { riffian: 'Amzir', english: 'Blacksmith', category: 'People' },
 
   // ── More Verbs (2) ────────────────────────────────────────────────
   { riffian: 'Zzogha', english: 'To drag', category: 'Verbs' },
   { riffian: 'Dhfes', english: 'To fold', category: 'Verbs' },
 
-  // ── Abstract (1) ──────────────────────────────────────────────────
+  // ── Abstract ──────────────────────────────────────────────────
   { riffian: 'Thirja', english: 'Dream', category: 'Abstract' },
+  { riffian: 'Amenghi', english: 'Battle / Fight', category: 'Abstract' },
+  { riffian: 'Amnus', english: 'Worry', category: 'Abstract' },
+  { riffian: 'Amuni', english: 'Union', category: 'Abstract' },
+  { riffian: 'Amsaggar', english: 'Meeting', category: 'Abstract' },
+  { riffian: 'Anecht', english: 'As much', category: 'Abstract' },
+  { riffian: 'Anu', english: 'Well (water)', category: 'Abstract' },
 ]
 
 // Categories for the filter
